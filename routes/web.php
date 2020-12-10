@@ -1,39 +1,22 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MainController;
+use App\Http\Controllers\About;
+use App\Http\Controllers\Feedbacks;
+use App\Http\Controllers\Posts;
+use App\Http\Controllers\Contacts;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+Route::get('/', [MainController::class, 'index']);
+Route::get('about', [About::class, 'index']);
+Route::get('contacts', [Contacts::class, 'index']);
+Route::post('contacts', [Contacts::class, 'store']);
+Route::get('/admin/feedbacks', [Feedbacks::class, 'index']);
+Route::get('posts/create', [Posts::class, 'create']);
+Route::post('/posts', [Posts::class, 'store']);
+Route::get('posts/{slug}', [Posts::class, 'show']);
 
-Route::get('/', function () {
-    return view('main');
-});
 
-Route::get('/about', function () {
-    return view('about');
-});
 
-Route::get('/contacts', function () {
-    return view('contacts');
-});
 
-Route::get('/posts/create', function () {
-    return view('createPost');
-});
-
-Route::get('/posts/{slug}', function () {
-    return view('createPost');
-});
-
-Route::get('/admin/feedbacks', function () {
-    return view('fedbacks');
-});
 
