@@ -1,6 +1,7 @@
 @extends('layout')
+@section('title', 'Главная страница')
 @section('content')
     @foreach ($posts as $post)
-        @include('layout.briefpost', ['post' => $post])
+        @include('content.briefpost', ['post' => $post])
     @endforeach
 @endsection

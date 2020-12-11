@@ -1,4 +1,5 @@
 @extends('layout')
+@section('title', $post->title)
 @section('content')
-    @include('layout.singlepost', ['post' => $post])
+    @include('content.singlepost', ['post' => $post])
 @endsection

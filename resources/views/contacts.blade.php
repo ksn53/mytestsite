@@ -1,4 +1,5 @@
 @extends('layout')
+@section('title', 'Контакты')
 @section('content')
 @include('layout.validationError')
 <h1>Это форма обратной связи для контактов с нами</h1>

@@ -1,4 +1,5 @@
 @extends('layout')
+@section('title', 'Отзывы')
 @section('content')
 <table class="table">
     <thead>
