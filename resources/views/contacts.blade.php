@@ -1,9 +1,9 @@
-@extends('layout')
+@extends('layout.layout')
 @section('title', 'Контакты')
 @section('content')
 @include('layout.validationError')
 <h1>Это форма обратной связи для контактов с нами</h1>
-    <form id="editDataForm" method="post" action="/contacts" class="mb-3">
+    <form id="editDataForm" method="post" action="{{ route('contactsStore') }}" class="mb-3">
     @csrf
         <div class="form-group">
             <label for="inputEmail">email</label>

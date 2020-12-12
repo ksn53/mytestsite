@@ -25,17 +25,15 @@ class Posts extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate(['slug' => 'required|unique:posts|alpha_dash', 'title' => 'required|min:5|max:100', 'brief' => 'required|max:255', 'content' => 'required']);
-        $post = new Post();
-        $post->title = $request->title;
-        $post->brief = $request->brief;
-        $post->content = $request->content;
-        $post->slug = $request->slug;
+        $validated = $request->validate(['title' => 'required|min:5|max:100', 'slug' => 'required|unique:posts|alpha_dash','brief' => 'required|max:255', 'content' => 'required']);
         if ($request->published == "on") {
-            $post->published = 1;
+            $validated['published'] = 1;
         }
+        $post = Post::create($validated);
+
+
         $post->save();
-        return redirect('/');
+        return redirect(route('mainpage'));
     }
     /**
      * Display the specified resource.

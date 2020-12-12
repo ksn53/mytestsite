@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layout.layout')
 @section('title', 'Отзывы')
 @section('content')
 <table class="table">

@@ -26,10 +26,8 @@ class Contacts extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate(['email' => 'required|email:rfc', 'message' => 'required']);
-        $message = new Message();
-        $message->email = $request->email;
-        $message->message = $request->message;
+        $message = Message::create($validated);
         $message->save();
-        return redirect('/');
+        return redirect(route('mainpage'));
     }
 }

@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layout.layout')
 @section('title', 'Главная страница')
 @section('content')
     @foreach ($posts as $post)
