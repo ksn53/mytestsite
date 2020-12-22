@@ -2,7 +2,7 @@
 @section('title', 'Добавить статью')
 @section('content')
 @include('layout.validationError')
-    <form id="editDataForm" method="post" action="{{ route('posts') }}" class="mb-3">
+    <form id="editDataForm" method="post" action="{{ route('posts.store') }}" class="mb-3">
     @csrf
         <div class="form-group">
             <label for="titleInput">Заголовок</label>

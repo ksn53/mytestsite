@@ -25,7 +25,7 @@ class Posts extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate(['title' => 'required|min:5|max:100', 'slug' => 'required|unique:posts|alpha_dash','brief' => 'required|max:255', 'content' => 'required']);
+        $validated = $request->validate(['title' => 'required|min:5|max:100', 'slug' => 'required|unique:posts|alpha_dash','brief' => 'required|max:512', 'content' => 'required']);
         if ($request->published == "on") {
             $validated['published'] = 1;
         }
@@ -35,14 +35,30 @@ class Posts extends Controller
         $post->save();
         return redirect(route('mainpage'));
     }
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show(Post $post)
     {
         return view ('post', compact('post'));
+    }
+
+    public function edit(Post $post)
+    {
+        return view ('postEdit', compact('post'));
+    }
+    public function update(Post $post)
+    {
+        $validated = request()->validate(['title' => 'required|min:5|max:100', 'slug' => 'required|alpha_dash','brief' => 'required|max:512', 'content' => 'required']);
+        $validated['published'] = null;
+        if (request()->published == "on") {
+            $validated['published'] = 1;
+        }
+        $post->update($validated);
+        $post->save();
+        return redirect(route('mainpage'));
+    }
+    public function destroy(Post $post)
+    {
+        $post->delete();
+        return redirect(route('mainpage'));
     }
 }
