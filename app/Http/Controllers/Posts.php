@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\Tag;
 
 class Posts extends Controller
 {
@@ -53,6 +54,17 @@ class Posts extends Controller
             $validated['published'] = 1;
         }
         $post->update($validated);
+
+        $postTags = $post->tags->keyBy('name');
+        $tags = collect(explode(',', request('tags')))->keyBy(function ($item) { return $item; });
+        $syncIds = $postTags->intersectByKeys($tags)->pluck('id')->toArray();
+        $tagsToAttach = $tags->diffKeys($postTags);
+
+        foreach ($tagsToAttach as $tag) {
+            $tag = Tag::firstOrCreate(['name' => $tag]);
+            $syncIds[] = $tag->id;
+        }
+        $post->tags()->sync($syncIds);
         $post->save();
         return redirect(route('mainpage'));
     }

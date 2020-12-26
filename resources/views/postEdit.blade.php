@@ -14,8 +14,12 @@
             <input name="slug" type="text" class="form-control" id="slugInput" placeholder='Введите код' value="{{ old('slug', $post->slug) }}">
         </div>
         <div class="form-check">
-            <input name="published" type="checkbox" class="form-check-input" id="publishedInput" @if ($post->published == 1) checked="" @endif>
+            <input name="published" type="checkbox" class="form-check-input" id="publishedInput" {{ $post->published ? 'checked' : ''}}>
             <label class="form-check-label" for="publishedInput">Опубликовано</label>
+        </div>
+        <div class="form-group">
+            <label for="tagsInput">Теги</label>
+            <input type="text" name="tags" class="form-control" id="tagsInput" value="{{ old('tags', $post->tags->pluck('name')->implode(',')) }}">
         </div>
         <div class="form-group">
             <label for="briefInput">Бриф</label>

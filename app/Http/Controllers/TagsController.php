@@ -3,19 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Post;
+use App\Models\Tag;
 
-class MainController extends Controller
+class TagsController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Tag $tag)
     {
-        $posts = Post::with('tags')->where('published', 1)->latest()->get();
+        $posts = $tag->posts()->with('tags')->get();
         return view ('main', compact('posts'));
-        //orderBy('updated_at', 'desc')
     }
+
 }

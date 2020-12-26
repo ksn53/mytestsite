@@ -5,17 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Post extends Model
+class Tag extends Model
 {
     use HasFactory;
-    public $fillable = ['title', 'slug', 'brief', 'content', 'published'];
+    public $fillable = ['name'];
 
     public function getRouteKeyName()
     {
-        return 'slug';
+        return 'name';
     }
-    public function tags()
+
+    public function posts()
     {
-        return $this->belongsToMany(Tag::class);
+        return $this->belongsToMany(Post::class);
     }
+
 }
