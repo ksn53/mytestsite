@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         view()->composer('layout.sidebar', function ($view) {
-            $view->with('tagsCloud', \App\Models\Tag::has('posts')->get());
+            $view->with('tagsCloud', \App\Models\Tag::tagsCloud());
         });
     }
 }

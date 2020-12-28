@@ -5,9 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Tag;
+use Illuminate\Support\Facades\Auth;
 
 class Posts extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('can:update,post')->except(['show', 'store', 'create']);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -30,6 +36,8 @@ class Posts extends Controller
         if ($request->published == "on") {
             $validated['published'] = 1;
         }
+        $validated['owner_id'] = Auth::id();
+        //dd($validated);
         $post = Post::create($validated);
 
 
@@ -44,6 +52,7 @@ class Posts extends Controller
 
     public function edit(Post $post)
     {
+        //$this->authorize('update', $post);
         return view ('postEdit', compact('post'));
     }
     public function update(Post $post)
@@ -53,6 +62,7 @@ class Posts extends Controller
         if (request()->published == "on") {
             $validated['published'] = 1;
         }
+        $validated['owner_id'] = Auth::id();
         $post->update($validated);
 
         $postTags = $post->tags->keyBy('name');

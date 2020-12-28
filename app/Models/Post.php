@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     use HasFactory;
-    public $fillable = ['title', 'slug', 'brief', 'content', 'published'];
+    public $fillable = ['title', 'slug', 'brief', 'content', 'published', 'owner_id'];
 
     public function getRouteKeyName()
     {

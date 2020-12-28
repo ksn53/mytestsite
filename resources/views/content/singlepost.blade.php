@@ -4,4 +4,6 @@
     @include('content.tags', ['tags' => $post->tags])
     {{ $post->content}}
 </div><!-- /.blog-post -->
-<a href="{{ route('posts.edit', ['post' => $post->slug]) }}">Редактировать/удалить статью</a>;
+@can('update', $post)
+    <a href="{{ route('posts.edit', ['post' => $post->slug]) }}">Редактировать/удалить статью</a>;
+@endcan
