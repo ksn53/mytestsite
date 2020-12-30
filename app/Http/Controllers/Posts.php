@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Tag;
+use App\Mail\PostCreated;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class Posts extends Controller
 {
@@ -37,11 +39,9 @@ class Posts extends Controller
             $validated['published'] = 1;
         }
         $validated['owner_id'] = Auth::id();
-        //dd($validated);
         $post = Post::create($validated);
-
-
         $post->save();
+        Mail::to($post->owner->email)->queue(new PostCreated($post));
         return redirect(route('mainpage'));
     }
 
