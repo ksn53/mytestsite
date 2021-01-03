@@ -5,9 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Tag;
-use App\Mail\PostCreated;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
+use App\Notifications\PostUpdated;
 
 class Posts extends Controller
 {
@@ -41,7 +40,7 @@ class Posts extends Controller
         $validated['owner_id'] = Auth::id();
         $post = Post::create($validated);
         $post->save();
-        Mail::to($post->owner->email)->queue(new PostCreated($post));
+        flash('Статья успешно создана.');
         return redirect(route('mainpage'));
     }
 
@@ -52,7 +51,6 @@ class Posts extends Controller
 
     public function edit(Post $post)
     {
-        //$this->authorize('update', $post);
         return view ('postEdit', compact('post'));
     }
     public function update(Post $post)
@@ -75,12 +73,15 @@ class Posts extends Controller
             $syncIds[] = $tag->id;
         }
         $post->tags()->sync($syncIds);
+        $post->owner->notify(new PostUpdated());
         $post->save();
+        flash('Статья успешно обновлена.');
         return redirect(route('mainpage'));
     }
     public function destroy(Post $post)
     {
         $post->delete();
+        flash('Статья удалена', 'warning');
         return redirect(route('mainpage'));
     }
 }

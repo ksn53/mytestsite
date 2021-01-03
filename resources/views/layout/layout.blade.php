@@ -5,7 +5,9 @@
 </div>
 
 <main role="main" class="container">
+  @include('layout.flash_message')
   <div class="row">
+
     <div class="col-md-8 blog-main">
 
         @yield('content')
