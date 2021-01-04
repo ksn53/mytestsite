@@ -21,5 +21,8 @@
 
 </main><!-- /.container -->
     @include('layout.footer')
+    <script {{ mix("/js/app.js") }}></script>
+    <script {{ mix("/js/manifest.js") }}></script>
+    <script {{ mix("/js/vendor.js") }}></script>
 </body>
 </html>

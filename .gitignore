@@ -2,6 +2,7 @@
 /vendor
 /bootstrap
 /tests
+/node_modules
 .env
 .env.backup
 .phpunit.result.cache
