@@ -17,4 +17,3 @@ Route::post('contacts', [Contacts::class, 'store'])->name('contactsStore');
 Route::get('/admin/feedbacks', [Feedbacks::class, 'index'])->name('feedbacks');
 
 Auth::routes();
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

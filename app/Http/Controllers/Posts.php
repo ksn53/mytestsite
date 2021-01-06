@@ -33,12 +33,18 @@ class Posts extends Controller
      */
     public function store(Request $request)
     {
+        $tags = collect(explode(',', request('tags')))->keyBy(function ($item) { return $item; });
+        foreach ($tags as $tag) {
+            $tag = Tag::firstOrCreate(['name' => $tag]);
+            $syncIds[] = $tag->id;
+        }
         $validated = $request->validate(['title' => 'required|min:5|max:100', 'slug' => 'required|unique:posts|alpha_dash','brief' => 'required|max:512', 'content' => 'required']);
         if ($request->published == "on") {
             $validated['published'] = 1;
         }
         $validated['owner_id'] = Auth::id();
         $post = Post::create($validated);
+        $post->tags()->sync($syncIds);
         $post->save();
         flash('Статья успешно создана.');
         return redirect(route('mainpage'));
