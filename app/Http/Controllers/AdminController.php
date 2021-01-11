@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
+        public function __construct()
+    {
+        $this->middleware('auth');
+        //$this->middleware('can:update,post')->except(['show', 'store', 'create']);
+    }
     /**
      * Display a listing of the resource.
      *
