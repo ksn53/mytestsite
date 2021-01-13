@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Post;
+use App\Models\User;
+use App\Models\Role;
 
 class AdminController extends Controller
 {
@@ -18,9 +21,28 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return view ('admin.admin');
+        return view ('admin.main');
     }
 
+    public function postlist()
+    {
+        $posts = Post::latest()->get();
+        //$posts = Post::orderBy('id', 'DESC')->get();
+        //dd($posts);
+        return view ('admin.postlist', compact('posts'));
+    }
+
+    public function userlist()
+    {
+        $users = User::orderBy('name', 'DESC')->get();
+        return view ('admin.userlist', compact('users'));
+    }
+
+    public function rolelist()
+    {
+        $roles = Role::orderBy('name', 'DESC')->get();
+        return view ('admin.rolelist', compact('roles'));
+    }
     /**
      * Show the form for creating a new resource.
      *

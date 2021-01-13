@@ -3,4 +3,4 @@
     <p class="blog-post-meta">{{ $post->updated_at }}</p>
     @include('content.tags', ['tags' => $post->tags])
     {{ $post->brief}}
-</div><!-- /.blog-post -->
+</div>

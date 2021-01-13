@@ -15,8 +15,6 @@ class MainController extends Controller
     public function index()
     {
         $posts = Post::with('tags')->where('published', 1)->latest()->get();
-        //dump($posts);
         return view ('main', compact('posts'));
-        //orderBy('updated_at', 'desc')
     }
 }

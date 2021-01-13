@@ -12,7 +12,7 @@ class Posts extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except(['show']);
         $this->middleware('can:update,post')->except(['show', 'store', 'create']);
     }
     /**
