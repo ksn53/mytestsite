@@ -12,7 +12,7 @@ class AdminController extends Controller
         public function __construct()
     {
         $this->middleware('auth');
-        //$this->middleware('can:update,post')->except(['show', 'store', 'create']);
+        $this->middleware('role:admin');
     }
     /**
      * Display a listing of the resource.
@@ -27,8 +27,6 @@ class AdminController extends Controller
     public function postlist()
     {
         $posts = Post::latest()->get();
-        //$posts = Post::orderBy('id', 'DESC')->get();
-        //dd($posts);
         return view ('admin.postlist', compact('posts'));
     }
 

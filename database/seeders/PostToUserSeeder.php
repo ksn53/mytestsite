@@ -16,8 +16,19 @@ class PostToUserSeeder extends Seeder
      */
     public function run()
     {
-        Post::factory()->count(4)->create(['owner_id' => User::factory()->create()->id])->each(function(Post $post){
-            $post->tags()->saveMany(Tag::factory()->count(rand(1, 4))->make(['']));
-        });
+        Tag::factory()->count(10)->create();
+        $user = User::factory()->count(2)->create();
+        $this->createPosts($user[0]);
+        $this->createPosts($user[1]);
+    }
+
+    public function createPosts(User $user)
+    {
+        Post::factory()->count(10)->create(['owner_id' => $user])->each(
+            function(Post $post)
+            {
+                $post->tags()->saveMany(Tag::all()->random(3));
+            }
+        );
     }
 }
