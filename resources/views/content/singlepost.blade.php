@@ -6,4 +6,7 @@
 </div><!-- /.blog-post -->
 @can('update', $post)
     <a href="{{ route('posts.edit', ['post' => $post->slug]) }}">Редактировать/удалить статью</a>;
+    @role('admin')
+        Admin Panel
+    @endrole
 @endcan

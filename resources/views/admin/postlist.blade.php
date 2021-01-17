@@ -8,15 +8,24 @@
             <th>Заголовок</th>
             <th>автор</th>
             <th>Создано</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
     @foreach ($posts as $post)
         <tr>
             <td>{{ $post->id }}</td>
-            <td><a href="http://test.local/editpost/{{ $post->id }}">{{ $post->title }}</a></td>
+            <td><a href="{{ route('posts.edit', ['post' => $post->slug]) }}">{{ $post->title }}</a></td>
             <td>{{ $post->owner_id }}</td>
-            <td>{{ $post->created_at }}&nbsp;<a href="javascript://" onclick="deletePost({{ $post->id }})">Удалить</a></td>
+            <td>{{ $post->created_at }}</td>
+            <td>
+                <form id="deleteDataForm" method="post" action="/posts/{{ $post->slug }}">
+                    @csrf
+                    @method("DELETE")
+                    <input type="hidden" name="adminmode" value="1">
+                    <button type="submit" class="btn btn-link" id="deleteButton">Удалить</button>
+                </form>
+            </td>
         </tr>
     @endforeach
     </tbody>

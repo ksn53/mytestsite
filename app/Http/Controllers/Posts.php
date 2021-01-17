@@ -84,10 +84,13 @@ class Posts extends Controller
         flash('Статья успешно обновлена.');
         return redirect(route('mainpage'));
     }
-    public function destroy(Post $post)
+    public function destroy(Post $post, Request $request)
     {
         $post->delete();
         flash('Статья удалена', 'warning');
+        if ($request->adminmode) {
+            return back();
+        }
         return redirect(route('mainpage'));
     }
 }
