@@ -5,8 +5,9 @@
     {{ $post->content}}
 </div><!-- /.blog-post -->
 @can('update', $post)
-    <a href="{{ route('posts.edit', ['post' => $post->slug]) }}">Редактировать/удалить статью</a>;
     @role('admin')
-        Admin Panel
+        <a href="{{ route('adminpanel') }}">Admin Panel</a>
+    @else
+        <a href="{{ route('posts.edit', ['post' => $post->slug]) }}">Редактировать/удалить статью</a>
     @endrole
 @endcan

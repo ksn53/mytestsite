@@ -44,7 +44,6 @@ class SendNotificationAboutPosts extends Command
     {
         $from = $this->argument('from');
         $to = $this->argument('to');
-        //$this->line($from . ' - ' . $to);
         $posts = Post::whereBetween('created_at', [$from, $to])->get();
         Mail::to(User::all()->pluck('email'))->queue(new MessageAboutPosts($posts));
     }
