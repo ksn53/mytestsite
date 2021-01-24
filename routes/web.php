@@ -8,6 +8,11 @@ use App\Http\Controllers\Posts;
 use App\Http\Controllers\Contacts;
 use App\Http\Controllers\TagsController;
 use App\Http\Controllers\AdminController;
+use App\Http\Service\Pushall;
+
+Route::get('/test', function(Pushall $pushall) {
+    $pushall->send('test title', 'test content');
+});
 
 Route::get('/tags/{tag}', [TagsController::class, 'index']);
 Route::resource('/posts', Posts::class);
