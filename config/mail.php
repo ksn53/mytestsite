@@ -43,6 +43,7 @@ return [
             'password' => env('MAIL_PASSWORD'),
             'timeout' => null,
             'auth_mode' => null,
+            'admin_email' => env('MAIL_ADMIN'),
         ],
 
         'ses' => [

@@ -9,7 +9,7 @@ use App\Http\Controllers\Contacts;
 use App\Http\Controllers\TagsController;
 use App\Http\Controllers\AdminController;
 
-Route::get('/tags/{tag}', [TagsController::class, 'index']);
+Route::get('/tags/{tag}', [TagsController::class, 'index'])->name('tags');
 Route::resource('/posts', Posts::class);
 Route::get('/', [MainController::class, 'index'])->name('mainpage');
 Route::get('about', [About::class, 'index'])->name('about');

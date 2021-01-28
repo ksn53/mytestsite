@@ -29,8 +29,6 @@ class PostFactory extends Factory
             'content' => $this->faker->paragraph(2),
             'published' => 1,
             'slug' => $this->faker->lexify(),
-            'created_at' => now(),
-            'updated_at' => now(),
         ];
     }
 }

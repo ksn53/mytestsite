@@ -19,7 +19,7 @@
             <td>{{ $post->owner_id }}</td>
             <td>{{ $post->created_at }}</td>
             <td>
-                <form id="deleteDataForm" method="post" action="/posts/{{ $post->slug }}">
+                <form id="deleteDataForm" method="post" action="{{ route("posts.destroy", ['post' => $post->slug]) }}">
                     @csrf
                     @method("DELETE")
                     <input type="hidden" name="adminmode" value="1">

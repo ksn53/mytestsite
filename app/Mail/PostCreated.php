@@ -30,6 +30,6 @@ class PostCreated extends Mailable
      */
     public function build()
     {
-        return $this->from('admin@test.local')->markdown('mail.post-created');
+        return $this->from(config('mail.mailers.smtp.admin_email'))->markdown('mail.post-created');
     }
 }

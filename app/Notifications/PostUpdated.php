@@ -41,7 +41,7 @@ class PostUpdated extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->from('admin@test.local')
+                    ->from(config('mail.mailers.smtp.admin_email'))
                     ->subject('Статья обновлена')
                     ->line('The introduction to the notification.')
                     ->action('Перейти на сайт', url('/'))

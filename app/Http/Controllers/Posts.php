@@ -66,7 +66,6 @@ class Posts extends Controller
         if (request()->published == "on") {
             $validated['published'] = 1;
         }
-        //$validated['owner_id'] = Auth::id();
         $post->update($validated);
 
         $postTags = $post->tags->keyBy('name');

@@ -23,8 +23,6 @@ class TagFactory extends Factory
     {
         return [
             'name' => $this->faker->word(),
-            'created_at' => now(),
-            'updated_at' => now(),
         ];
     }
 }
