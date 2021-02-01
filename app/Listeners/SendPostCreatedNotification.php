@@ -22,9 +22,4 @@ class SendPostCreatedNotification
         Mail::to($event->post->owner->email)->queue(new PostCreatedMail($event->post));
         app(Pushall::class)->send('Статья создана', $event->post->title);
     }
-
-    public function sendPush(Pushall $pushall)
-    {
-        dd($pushall);
-    }
 }

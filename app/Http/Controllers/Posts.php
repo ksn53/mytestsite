@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\PostUpdated;
+use App\Http\Service\TagExtract;
 
 class Posts extends Controller
 {
@@ -25,6 +26,10 @@ class Posts extends Controller
         return view ('postForm');
     }
 
+    public function edit(Post $post)
+    {
+        return view ('postEdit', compact('post'));
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -33,56 +38,48 @@ class Posts extends Controller
      */
     public function store(Request $request)
     {
-        $tags = collect(explode(',', request('tags')))->keyBy(function ($item) { return $item; });
-        foreach ($tags as $tag) {
-            $tag = Tag::firstOrCreate(['name' => $tag]);
-            $syncIds[] = $tag->id;
-        }
-        $validated = $request->validate(['title' => 'required|min:5|max:100', 'slug' => 'required|unique:posts|alpha_dash','brief' => 'required|max:512', 'content' => 'required']);
-        if ($request->published == "on") {
-            $validated['published'] = 1;
-        }
+        $validator = new FormRequestValidate;
+        $validated = $validator($request);
         $validated['owner_id'] = Auth::id();
         $post = Post::create($validated);
-        $post->tags()->sync($syncIds);
-        $post->save();
+
+        if (!is_null(request('tags'))) {
+            $post->tags()->sync(app(TagExtract::class)->extractTagsId($request));
+        }
+
         flash('Статья успешно создана.');
         return redirect(route('mainpage'));
     }
-
+    public function update(Post $post, Request $request)
+    {
+        $validator = new FormRequestValidate;
+        $validated = $validator($request);
+        $post->update($validated);
+        $post->tags()->sync(app(TagExtract::class)->extractTagsId($request, $post));
+        $post->owner->notify(new PostUpdated());
+        flash('Статья успешно обновлена.');
+        return back();
+    }
+    /*private function extractTagsId(Request $request, Post $post = null)
+    {
+        $tags = collect(explode(',', request('tags')))->keyBy(function ($item) { return $item; });
+        if (!is_null($post)) {
+            $postTags = $post->tags->keyBy('name');
+            $syncIds = $postTags->intersectByKeys($tags)->pluck('id')->toArray();
+        }
+        foreach ($tags as $tag) {
+            if ($tag) {
+                $tag = Tag::firstOrCreate(['name' => $tag]);
+                $syncIds[] = $tag->id;
+            }
+        }
+        return $syncIds;
+    }*/
     public function show(Post $post)
     {
         return view ('post', compact('post'));
     }
 
-    public function edit(Post $post)
-    {
-        return view ('postEdit', compact('post'));
-    }
-    public function update(Post $post)
-    {
-        $validated = request()->validate(['title' => 'required|min:5|max:100', 'slug' => 'required|alpha_dash','brief' => 'required|max:512', 'content' => 'required']);
-        $validated['published'] = null;
-        if (request()->published == "on") {
-            $validated['published'] = 1;
-        }
-        $post->update($validated);
-
-        $postTags = $post->tags->keyBy('name');
-        $tags = collect(explode(',', request('tags')))->keyBy(function ($item) { return $item; });
-        $syncIds = $postTags->intersectByKeys($tags)->pluck('id')->toArray();
-        $tagsToAttach = $tags->diffKeys($postTags);
-
-        foreach ($tagsToAttach as $tag) {
-            $tag = Tag::firstOrCreate(['name' => $tag]);
-            $syncIds[] = $tag->id;
-        }
-        $post->tags()->sync($syncIds);
-        $post->owner->notify(new PostUpdated());
-        $post->save();
-        flash('Статья успешно обновлена.');
-        return back();
-    }
     public function destroy(Post $post, Request $request)
     {
         $post->delete();

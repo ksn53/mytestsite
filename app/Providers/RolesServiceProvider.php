@@ -8,32 +8,13 @@ use Illuminate\Support\Facades\Blade;
 class RolesServiceProvider extends ServiceProvider
 {
     /**
-     * Register services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        //
-    }
-
-    /**
      * Bootstrap services.
      *
      * @return void
      */
     public function boot()
     {
-        /*Blade::directive('role', function ($role){
-            return "<?php if(auth()->check() && auth()->user()->hasRole({$role})): ?>";
-        });
-        Blade::directive('elserole', function ($role){
-            return "<?php else ?>";
-        });
-        Blade::directive('endrole', function ($role){
-            return "<?php endif; ?>";
-        });*/
-        Blade::if('role', function ($role){
+        Blade::if('role', function ($role) {
             return auth()->check() && auth()->user()->hasRole($role);
         });
     }

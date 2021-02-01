@@ -15,4 +15,4 @@ mix.js('resources/js/app.js', 'public/js')
     .postCss('resources/css/app.css', 'public/css')
     .postCss('resources/css/blog.css', 'public/css')
     .postCss('resources/css/bootstrap.min.css', 'public/css')
-    .sourceMaps().extract().version();
+    .sourceMaps().version();

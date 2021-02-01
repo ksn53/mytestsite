@@ -30,7 +30,7 @@ class Pushall
             CURLOPT_RETURNTRANSFER => true
         ]);
 
-        $result=curl_exec($ch); //получить ответ или ошибку
+        $result = curl_exec($ch); //получить ответ или ошибку
         curl_close($ch);
         return $result;
     }

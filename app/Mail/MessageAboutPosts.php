@@ -28,6 +28,6 @@ class MessageAboutPosts extends Mailable
      */
     public function build()
     {
-        return $this->from('admin@test.local')->markdown('mail.postlist-notification');
+        return $this->from(config('mail.mailers.smtp.admin_email'))->markdown('mail.postlist-notification');
     }
 }
