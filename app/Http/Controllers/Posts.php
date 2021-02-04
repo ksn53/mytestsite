@@ -23,7 +23,7 @@ class Posts extends Controller
      */
     public function create()
     {
-        return view ('postForm');
+        return view ('postAdd');
     }
 
     public function edit(Post $post)

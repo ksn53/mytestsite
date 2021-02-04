@@ -14,7 +14,7 @@ class FormRequestValidate extends Controller
      */
     public function __invoke(Request $request)
     {
-        $validated = request()->validate(['title' => 'required|min:5|max:100', 'slug' => 'required|alpha_dash','brief' => 'required|max:512', 'content' => 'required']);
+        $validated = request()->validate(['title' => 'required|min:5|max:100', 'slug' => 'required|alpha_dash|max:5','brief' => 'required|max:512', 'content' => 'required']);
         $validated['published'] = null;
         if (request()->published == "on") {
             $validated['published'] = 1;
