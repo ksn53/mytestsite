@@ -9,9 +9,9 @@ use Illuminate\Http\Request;
 class TagExtract
 {
 
-    public function extractTagsId(Request $request, Post $post = null)
+    public function extractTagsId(String $tags, Post $post = null)
     {
-        $tags = collect(explode(',', request('tags')))->keyBy(function ($item) { return $item; });
+        $tags = collect(explode(',', $tags))->keyBy(function ($item) { return $item; });
         if (!is_null($post)) {
             $postTags = $post->tags->keyBy('name');
             $syncIds = $postTags->intersectByKeys($tags)->pluck('id')->toArray();

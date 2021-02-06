@@ -6,9 +6,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name') }}</title>
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link href="/css/app.css" rel="stylesheet">
-    <link href="/css/blog.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ mix("/css/bootstrap.min.css") }}">
+    <link href="{{ mix("/css/app.css") }}" rel="stylesheet">
+    <link href="{{ mix("/css/blog.css") }}" rel="stylesheet">
   </head>
   <body>
     <div class="container">
