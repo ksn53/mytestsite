@@ -32,14 +32,8 @@ class PostRequestValidate extends FormRequest
             'slug' => 'required|alpha_dash|max:5|unique:posts',
         ];
 
-        if (in_array($this->method(), ['PUT', 'PATCH'])) {
-            $rules = [
-                'title' => 'required|min:5|max:100',
-                'brief' => 'required|max:512',
-                'content' => 'required',
-                'published' => 'in:null,1',
-                'slug' => ['required', 'alpha_dash', 'max:5', Rule::unique('posts', 'slug')->ignore($this->post->slug, 'slug')],
-            ];
+        if ($this->post) {
+            $rules['slug'] = ['required', 'alpha_dash', 'max:5', Rule::unique('posts', 'slug')->ignore($this->post->slug, 'slug')];
         }
         return $rules;
     }

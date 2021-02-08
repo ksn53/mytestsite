@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class TagExtract
 {
 
-    public function extractTagsId(String $tags, Post $post = null)
+    public function extractTagsId($tags, Post $post = null)
     {
         $tags = collect(explode(',', $tags))->keyBy(function ($item) { return $item; });
         if (!is_null($post)) {

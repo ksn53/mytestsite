@@ -4,7 +4,7 @@
 @include('layout.validationError')
     <form id="editDataForm" method="post" action="{{ route('posts.store') }}" class="mb-3">
     @csrf
-        @include('postForm')
+        @include('postForm', ['post' => new App\Models\Post()])
         <button type="submit" class="btn btn-primary" id="editButton">Добавить</button>
       </form>
 @endsection

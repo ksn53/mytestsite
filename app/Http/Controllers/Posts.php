@@ -37,24 +37,23 @@ class Posts extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PostRequestValidate $request)
+    public function store(PostRequestValidate $request, TagExtract $tagExtract)
     {
         $validated = $request->validated();
         $validated['owner_id'] = Auth::id();
         $post = Post::create($validated);
-
         if (!is_null(request('tags'))) {
-            $post->tags()->sync(app(TagExtract::class)->extractTagsId(request('tags')));
+            $post->tags()->sync($tagExtract->extractTagsId(request('tags')));
         }
 
         flash('Статья успешно создана.');
         return redirect(route('mainpage'));
     }
-    public function update(Post $post, PostRequestValidate $request)
+    public function update(Post $post, PostRequestValidate $request, TagExtract $tagExtract)
     {
         $validated = $request->validated();
         $post->update($validated);
-        $post->tags()->sync(app(TagExtract::class)->extractTagsId(request('tags'), $post));
+        $post->tags()->sync($tagExtract->extractTagsId(request('tags'), $post));
         $post->owner->notify(new PostUpdated());
         flash('Статья успешно обновлена.');
         return back();
