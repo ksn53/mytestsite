@@ -56,7 +56,7 @@ class Posts extends Controller
         $post->tags()->sync($tagExtract->extractTagsId(request('tags'), $post));
         $post->owner->notify(new PostUpdated());
         flash('Статья успешно обновлена.');
-        return back();
+        return redirect(route('posts.edit', ['post' => $post->slug]));
     }
 
     public function show(Post $post)

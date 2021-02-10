@@ -11,7 +11,8 @@ class TagExtract
 
     public function extractTagsId($tags, Post $post = null)
     {
-        $tags = collect(explode(',', $tags))->keyBy(function ($item) { return $item; });
+        $tagsArray = array_filter(array_map('trim', explode(',', $tags)), 'strlen');
+        $tags = collect($tagsArray)->keyBy(function ($item) { return $item; });
         if (!is_null($post)) {
             $postTags = $post->tags->keyBy('name');
             $syncIds = $postTags->intersectByKeys($tags)->pluck('id')->toArray();
