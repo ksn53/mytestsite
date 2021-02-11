@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
-use App\Http\Service\TagExtract;
 
 class AppServiceProvider extends ServiceProvider
 {

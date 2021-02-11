@@ -42,8 +42,8 @@ class Posts extends Controller
         $validated = $request->validated();
         $validated['owner_id'] = Auth::id();
         $post = Post::create($validated);
-        if (!is_null(request('tags'))) {
-            $post->tags()->sync($tagExtract->extractTagsId(request('tags')));
+        if (!is_null($validated['tags'])) {
+            $post->tags()->sync($tagExtract->extractTagsId($validated['tags']));
         }
 
         flash('Статья успешно создана.');
@@ -53,7 +53,7 @@ class Posts extends Controller
     {
         $validated = $request->validated();
         $post->update($validated);
-        $post->tags()->sync($tagExtract->extractTagsId(request('tags'), $post));
+        $post->tags()->sync($tagExtract->extractTagsId($validated['tags'], $post));
         $post->owner->notify(new PostUpdated());
         flash('Статья успешно обновлена.');
         return redirect(route('posts.edit', ['post' => $post->slug]));

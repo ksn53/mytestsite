@@ -30,6 +30,7 @@ class PostRequestValidate extends FormRequest
             'content' => 'required',
             'published' => 'in:null,1',
             'slug' => 'required|alpha_dash|max:5|unique:posts',
+            'tags' => 'sometimes',
         ];
 
         if ($this->post) {
@@ -41,6 +42,7 @@ class PostRequestValidate extends FormRequest
     {
         $this->merge([
             'published' => $this->publishedFilter($this->published),
+            'tags' => $this->tagsFilter($this->tags),
         ]);
 
     }
@@ -51,5 +53,11 @@ class PostRequestValidate extends FormRequest
             $filtered = 1;
         }
         return $filtered;
+    }
+
+    protected function tagsFilter($tags)
+    {
+        $tagsArray = array_filter(array_map('trim', explode(',', $tags)), 'strlen');
+        return collect($tagsArray)->keyBy(function ($item) { return $item; });
     }
 }
