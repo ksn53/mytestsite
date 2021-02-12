@@ -7,12 +7,14 @@ use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\PostUpdated;
+use App\Http\Service\TagExtract;
+use App\Http\Requests\PostRequestValidate;
 
 class Posts extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except(['show']);
         $this->middleware('can:update,post')->except(['show', 'store', 'create']);
     }
     /**
@@ -22,32 +24,39 @@ class Posts extends Controller
      */
     public function create()
     {
-        return view ('postForm');
+        return view ('postAdd');
     }
 
+    public function edit(Post $post)
+    {
+        return view ('postEdit', compact('post'));
+    }
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostRequestValidate $request, TagExtract $tagExtract)
     {
-        $tags = collect(explode(',', request('tags')))->keyBy(function ($item) { return $item; });
-        foreach ($tags as $tag) {
-            $tag = Tag::firstOrCreate(['name' => $tag]);
-            $syncIds[] = $tag->id;
-        }
-        $validated = $request->validate(['title' => 'required|min:5|max:100', 'slug' => 'required|unique:posts|alpha_dash','brief' => 'required|max:512', 'content' => 'required']);
-        if ($request->published == "on") {
-            $validated['published'] = 1;
-        }
+        $validated = $request->validated();
         $validated['owner_id'] = Auth::id();
         $post = Post::create($validated);
-        $post->tags()->sync($syncIds);
-        $post->save();
+        if (!is_null($validated['tags'])) {
+            $post->tags()->sync($tagExtract->extractTagsId($validated['tags']));
+        }
+
         flash('Статья успешно создана.');
         return redirect(route('mainpage'));
+    }
+    public function update(Post $post, PostRequestValidate $request, TagExtract $tagExtract)
+    {
+        $validated = $request->validated();
+        $post->update($validated);
+        $post->tags()->sync($tagExtract->extractTagsId($validated['tags'], $post));
+        $post->owner->notify(new PostUpdated());
+        flash('Статья успешно обновлена.');
+        return redirect(route('posts.edit', ['post' => $post->slug]));
     }
 
     public function show(Post $post)
@@ -55,39 +64,13 @@ class Posts extends Controller
         return view ('post', compact('post'));
     }
 
-    public function edit(Post $post)
-    {
-        return view ('postEdit', compact('post'));
-    }
-    public function update(Post $post)
-    {
-        $validated = request()->validate(['title' => 'required|min:5|max:100', 'slug' => 'required|alpha_dash','brief' => 'required|max:512', 'content' => 'required']);
-        $validated['published'] = null;
-        if (request()->published == "on") {
-            $validated['published'] = 1;
-        }
-        $validated['owner_id'] = Auth::id();
-        $post->update($validated);
-
-        $postTags = $post->tags->keyBy('name');
-        $tags = collect(explode(',', request('tags')))->keyBy(function ($item) { return $item; });
-        $syncIds = $postTags->intersectByKeys($tags)->pluck('id')->toArray();
-        $tagsToAttach = $tags->diffKeys($postTags);
-
-        foreach ($tagsToAttach as $tag) {
-            $tag = Tag::firstOrCreate(['name' => $tag]);
-            $syncIds[] = $tag->id;
-        }
-        $post->tags()->sync($syncIds);
-        $post->owner->notify(new PostUpdated());
-        $post->save();
-        flash('Статья успешно обновлена.');
-        return redirect(route('mainpage'));
-    }
-    public function destroy(Post $post)
+    public function destroy(Post $post, Request $request)
     {
         $post->delete();
         flash('Статья удалена', 'warning');
+        if ($request->adminmode) {
+            return back();
+        }
         return redirect(route('mainpage'));
     }
 }

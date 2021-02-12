@@ -5,8 +5,11 @@
 </div>
 
 <main role="main" class="container">
-  @include('layout.flash_message')
-  <div class="row">
+    <div class="row m-1">
+
+    </div>
+    @include('layout.flash_message')
+    <div class="row">
 
     <div class="col-md-8 blog-main">
 
@@ -21,8 +24,8 @@
 
 </main><!-- /.container -->
     @include('layout.footer')
-    <script {{ mix("/js/app.js") }}></script>
-    <script {{ mix("/js/manifest.js") }}></script>
-    <script {{ mix("/js/vendor.js") }}></script>
+    <script src="{{ mix("/js/app.js") }}"></script>
+    <script src="{{ mix("/js/manifest.js") }}"></script>
+    <script src="{{ mix("/js/vendor.js") }}"></script>
 </body>
 </html>

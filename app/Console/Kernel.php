@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        //$schedule->command('sendAboutNewPosts 2021-01-07 2021-01-11')->everyMinute();
     }
 
     /**
