@@ -3,7 +3,8 @@
     <p class="blog-post-meta">{{ $post->updated_at }}</p>
     @include('content.tags', ['tags' => $post->tags])
     {{ $post->content}}
-</div><!-- /.blog-post -->
+</div>
+@include('content.comments', ['comments' => $post->comments])
 @can('update', $post)
     @role('admin')
         <a href="{{ route('adminpanel') }}">Admin Panel</a>

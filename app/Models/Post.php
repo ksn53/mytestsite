@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use App\Models\Comment;
 use App\Events\PostCreated;
 
 class Post extends Model
@@ -22,6 +23,10 @@ class Post extends Model
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
+    }
+    public function comments()
+    {
+        return $this->belongsToMany(Comment::class);
     }
     public function owner()
     {
