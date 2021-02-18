@@ -4,7 +4,14 @@
     @include('content.tags', ['tags' => $post->tags])
     {{ $post->content}}
 </div>
-@include('content.comments', ['comments' => $post->comments])
+
+    <div class="container">
+        <div class="row"><a href="#" id="addacomment" class="btn btn-primary">Добавить комментарий</a> </div>
+        @include('commentAdd', ['post' => $post])
+        <hr>
+        @include('content.comments', ['comments' => $post->comments])
+    </div>
+
 @can('update', $post)
     @role('admin')
         <a href="{{ route('adminpanel') }}">Admin Panel</a>
