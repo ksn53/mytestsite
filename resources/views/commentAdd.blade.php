@@ -11,6 +11,6 @@
     <textarea name="content" class="form-control" id="contentInput" placeholder='Контент' rows="8">{{ old('content') }}</textarea>
 </div>
 
-        <button type="submit" class="btn btn-primary" id="editButton">Добавить</button>
+        <button type="submit" class="btn btn-primary" id="editButton">Добавить комментарий</button>
       </form>
 

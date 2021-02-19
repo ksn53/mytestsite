@@ -7,7 +7,7 @@
                 @foreach($comments as $comment)
                     <div class="commentRow commentContent">
                         <div class="commentHead">
-                            <small><strong class='commentUser'>{{ $comment->owner_id }}</strong>{{ $comment->created_at }}</small>
+                            <small><strong class='commentUser'>{{ $comment->owner->name }}</strong>{{ $comment->created_at }}</small>
                             <br><b>{{ $comment->title }}</b>
                         </div>
                         <p>{{ $comment->content }}</p>

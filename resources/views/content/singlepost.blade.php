@@ -6,8 +6,12 @@
 </div>
 
     <div class="container">
-        <div class="row"><a href="#" id="addacomment" class="btn btn-primary">Добавить комментарий</a> </div>
-        @include('commentAdd', ['post' => $post])
+        @auth
+    @include('commentAdd', ['post' => $post])
+    @else
+        Нужно загеристрироваться, чтобы писать комментарии.
+@endauth
+        
         <hr>
         @include('content.comments', ['comments' => $post->comments])
     </div>

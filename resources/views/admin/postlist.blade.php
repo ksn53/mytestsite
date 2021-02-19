@@ -16,7 +16,7 @@
         <tr>
             <td>{{ $post->id }}</td>
             <td><a href="{{ route('posts.edit', ['post' => $post->slug]) }}">{{ $post->title }}</a></td>
-            <td>{{ $post->owner_id }}</td>
+            <td>{{ $post->owner->name }}</td>
             <td>{{ $post->created_at }}</td>
             <td>
                 <form id="deleteDataForm" method="post" action="{{ route("posts.destroy", ['post' => $post->slug]) }}">
