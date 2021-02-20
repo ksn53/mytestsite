@@ -4,9 +4,18 @@
     @include('content.tags', ['tags' => $post->tags])
     {{ $post->content}}
 </div>
-<hr>
     @forelse($post->history as $item)
-        <p>{{ $item->email }} {{ $item->created_at->diffForHumans() }} {{ $item->before }} {{ $item->after }}</p>
+    <hr>
+        <p>{{ $item->email }} {{ $item->pivot->created_at->diffForHumans() }}<br>
+            Было:<br>
+            @foreach(json_decode($item->pivot->before, true) as $key => $value)
+                Поле: {{ $key }} - {{ $value }}<br>
+            @endforeach
+            Стало:<br>
+            @foreach(json_decode($item->pivot->after, true) as $key => $value)
+                Поле: {{ $key }} - {{ $value }}<br>
+            @endforeach
+        </p>
     @empty
         <p>Нет истории измеений.</p>
     @endforelse
