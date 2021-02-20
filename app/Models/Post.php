@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Comment;
 use App\Events\PostCreated;
+use Illuminate\Support\Facades\Auth;
 
 class Post extends Model
 {
@@ -16,6 +17,14 @@ class Post extends Model
     protected $dispatchesEvents = [
         'created' => PostCreated::class,
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::updating(function($post) {
+            $post->history()->attach(auth()->id());
+        });
+    }
     public function getRouteKeyName()
     {
         return 'slug';
@@ -31,5 +40,9 @@ class Post extends Model
     public function owner()
     {
         return $this->belongsTo(User::class);
+    }
+    public function history()
+    {
+        return $this->belongsToMany(User::class, 'post_histories');
     }
 }

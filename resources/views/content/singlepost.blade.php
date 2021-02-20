@@ -4,14 +4,18 @@
     @include('content.tags', ['tags' => $post->tags])
     {{ $post->content}}
 </div>
-
+<hr>
+    @forelse($post->history as $item)
+        <p>{{ $item->email }} {{ $item->created_at->diffForHumans() }} {{ $item->before }} {{ $item->after }}</p>
+    @empty
+        <p>Нет истории измеений.</p>
+    @endforelse
     <div class="container">
         @auth
-    @include('commentAdd', ['post' => $post])
-    @else
-        Нужно загеристрироваться, чтобы писать комментарии.
-@endauth
-        
+            @include('commentAdd', ['post' => $post])
+        @else
+            Нужно загеристрироваться, чтобы писать комментарии.
+        @endauth
         <hr>
         @include('content.comments', ['comments' => $post->comments])
     </div>
