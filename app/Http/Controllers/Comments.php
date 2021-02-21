@@ -27,8 +27,7 @@ class Comments extends Controller
         $validated = $request->validated();
         $validated['owner_id'] = Auth::id();
         $validated['post_id'] = $post->id;
-        $comment = Comment::create($validated);
-        $post->comments()->save($comment);
+        $post->comments()->save(Comment::create($validated));
         flash('Комментарий добавлен.');
         return redirect(route('mainpage'));
     }
