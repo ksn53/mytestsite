@@ -3,7 +3,32 @@
     <p class="blog-post-meta">{{ $post->updated_at }}</p>
     @include('content.tags', ['tags' => $post->tags])
     {{ $post->content}}
-</div><!-- /.blog-post -->
+</div>
+    @forelse($post->history as $item)
+    <hr>
+        <p>{{ $item->email }} {{ $item->pivot->created_at->diffForHumans() }}<br>
+            Было:<br>
+            @foreach(json_decode($item->pivot->before, true) as $key => $value)
+                Поле: {{ $key }} - {{ $value }}<br>
+            @endforeach
+            Стало:<br>
+            @foreach(json_decode($item->pivot->after, true) as $key => $value)
+                Поле: {{ $key }} - {{ $value }}<br>
+            @endforeach
+        </p>
+    @empty
+        <p>Нет истории измеений.</p>
+    @endforelse
+    <div class="container">
+        @auth
+            @include('commentAdd', ['post' => $post])
+        @else
+            Нужно загеристрироваться, чтобы писать комментарии.
+        @endauth
+        <hr>
+        @include('content.comments', ['comments' => $post->comments])
+    </div>
+
 @can('update', $post)
     @role('admin')
         <a href="{{ route('adminpanel') }}">Admin Panel</a>

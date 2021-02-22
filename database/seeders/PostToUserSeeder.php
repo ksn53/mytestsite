@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Models\User;
+use App\Models\Comment;
 
 class PostToUserSeeder extends Seeder
 {
@@ -16,7 +17,7 @@ class PostToUserSeeder extends Seeder
      */
     public function run()
     {
-        Tag::factory()->count(10)->create();
+        Tag::factory()->count(8)->create();
         $user = User::factory()->count(2)->create();
         $this->createPosts($user[0]);
         $this->createPosts($user[1]);
@@ -24,10 +25,11 @@ class PostToUserSeeder extends Seeder
 
     public function createPosts(User $user)
     {
-        Post::factory()->count(10)->create(['owner_id' => $user])->each(
+        Post::factory()->count(3)->create(['owner_id' => $user])->each(
             function(Post $post)
             {
                 $post->tags()->saveMany(Tag::all()->random(3));
+                Comment::factory()->count(2)->create(['post_id' => $post]);
             }
         );
     }
