@@ -28,7 +28,7 @@ class PostToUserSeeder extends Seeder
 
     public function createPosts(User $user)
     {
-        Post::factory()->count(5)->create(['owner_id' => $user])->each(
+        Post::factory()->count(8)->create(['owner_id' => $user])->each(
             function(Post $post)
             {
                 $post->tags()->saveMany(Tag::all()->random(3));
@@ -38,6 +38,6 @@ class PostToUserSeeder extends Seeder
     }
     public function createNews(User $user)
     {
-        News::factory()->count(6)->create(['owner_id' => $user]);
+        News::factory()->count(8)->create(['owner_id' => $user]);
     }
 }
