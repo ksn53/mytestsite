@@ -15,17 +15,6 @@ class NewsController extends Controller
         $this->middleware('can:update,post')->except(['show', 'store', 'create']);
     }
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $news = News::where('published', 1)->latest()->simplePaginate(10);
-        return view ('newsPage', compact('news'));
-    }
-
-    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -48,17 +37,6 @@ class NewsController extends Controller
         $news = News::create($validated);
         flash('Новость успешно создана.');
         return back();
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\News  $news
-     * @return \Illuminate\Http\Response
-     */
-    public function show(News $news)
-    {
-        return view ('news', compact('news'));
     }
 
     /**
