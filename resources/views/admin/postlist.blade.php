@@ -32,5 +32,5 @@
     </table>
 @endsection
 @section('paginator')
-
+    {{ $posts->links() }}
 @endsection

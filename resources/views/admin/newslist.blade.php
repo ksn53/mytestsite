@@ -31,5 +31,5 @@
     </table>
 @endsection
 @section('paginator')
-
+    {{ $news->links() }}
 @endsection
