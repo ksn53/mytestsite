@@ -22,7 +22,6 @@
                 <form id="deleteDataForm" method="post" action="{{ route("news.destroy", ['news' => $newsItem->slug]) }}">
                     @csrf
                     @method("DELETE")
-                    <input type="hidden" name="adminmode" value="1">
                     <button type="submit" class="btn btn-link" id="deleteButton">Удалить</button>
                 </form>
             </td>

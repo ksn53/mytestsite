@@ -1,5 +1,5 @@
 @extends('layout.layout')
-@section('title', 'Добавить статью')
+@section('title', 'Добавить новость')
 @section('content')
 @include('layout.validationError')
     <form id="editDataForm" method="post" action="{{ route('news.store') }}" class="mb-3">

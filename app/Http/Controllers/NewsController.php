@@ -4,9 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\News;
 use Illuminate\Http\Request;
+use App\Http\Requests\NewsRequestValidate;
+use Illuminate\Support\Facades\Auth;
 
 class NewsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['show']);
+        $this->middleware('can:update,post')->except(['show', 'store', 'create']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +21,7 @@ class NewsController extends Controller
      */
     public function index()
     {
-        $news = News::where('published', 1)->latest()->get();
+        $news = News::where('published', 1)->latest()->simplePaginate(10);
         return view ('newsPage', compact('news'));
     }
 
@@ -34,9 +41,13 @@ class NewsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(NewsRequestValidate $request)
     {
-        //
+        $validated = $request->validated();
+        $validated['owner_id'] = Auth::id();
+        $news = News::create($validated);
+        flash('Новость успешно создана.');
+        return back();
     }
 
     /**
@@ -58,7 +69,7 @@ class NewsController extends Controller
      */
     public function edit(News $news)
     {
-        //
+        return view ('newsEdit', compact('news'));
     }
 
     /**
@@ -68,9 +79,12 @@ class NewsController extends Controller
      * @param  \App\Models\News  $news
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, News $news)
+    public function update(NewsRequestValidate $request, News $news)
     {
-        //
+        $validated = $request->validated();
+        $news->update($validated);
+        flash('Новость успешно обновлена.');
+        return redirect(route('news.edit', ['news' => $news->slug]));
     }
 
     /**
@@ -79,8 +93,13 @@ class NewsController extends Controller
      * @param  \App\Models\News  $news
      * @return \Illuminate\Http\Response
      */
-    public function destroy(News $news)
+    public function destroy(Request $request, News $news)
     {
-        //
+        $news->delete();
+        flash('Новость удалена', 'warning');
+        if ($request->editmode) {
+            return redirect(route('admin.news.list'));
+        }
+        return back();
     }
 }
