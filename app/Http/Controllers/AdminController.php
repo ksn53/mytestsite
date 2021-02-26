@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\News;
 use App\Models\User;
 use App\Models\Role;
 
@@ -26,10 +27,14 @@ class AdminController extends Controller
 
     public function postlist()
     {
-        $posts = Post::latest()->get();
+        $posts = Post::latest()->paginate(20);
         return view ('admin.postlist', compact('posts'));
     }
-
+    public function newslist()
+    {
+        $news = News::latest()->paginate(20);
+        return view ('admin.newslist', compact('news'));
+    }
     public function userlist()
     {
         $users = User::orderBy('name', 'DESC')->get();

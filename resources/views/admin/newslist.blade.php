@@ -1,6 +1,6 @@
 @extends('admin.admin')
 @section('content')
-    @section('maintitle', 'Список статей')
+    @section('maintitle', 'Список новостей')
     <table class="table table-striped">
       <thead>
         <tr>
@@ -12,17 +12,16 @@
         </tr>
     </thead>
     <tbody>
-    @foreach ($posts as $post)
+    @foreach ($news as $newsItem)
         <tr>
-            <td>{{ $post->id }}</td>
-            <td><a href="{{ route('posts.edit', ['post' => $post->slug]) }}">{{ $post->title }}</a></td>
-            <td>{{ $post->owner->name }}</td>
-            <td>{{ $post->created_at }}</td>
+            <td>{{ $newsItem->id }}</td>
+            <td><a href="{{ route('news.edit', ['news' => $newsItem->slug]) }}">{{ $newsItem->title }}</a></td>
+            <td>{{ $newsItem->owner->name }}</td>
+            <td>{{ $newsItem->created_at }}</td>
             <td>
-                <form id="deleteDataForm" method="post" action="{{ route("posts.destroy", ['post' => $post->slug]) }}">
+                <form id="deleteDataForm" method="post" action="{{ route("news.destroy", ['news' => $newsItem->slug]) }}">
                     @csrf
                     @method("DELETE")
-                    <input type="hidden" name="adminmode" value="1">
                     <button type="submit" class="btn btn-link" id="deleteButton">Удалить</button>
                 </form>
             </td>
@@ -32,5 +31,5 @@
     </table>
 @endsection
 @section('paginator')
-    {{ $posts->links() }}
+    {{ $news->links() }}
 @endsection

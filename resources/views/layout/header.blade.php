@@ -38,6 +38,9 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                @if (Auth::user()->hasRole('admin'))
+                                  <div class="class="dropdown-item"><a class="dropdown-item" href="{{ route('adminpanel') }}">Admin panel</a></div>
+                                @endif
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
                                 </a>

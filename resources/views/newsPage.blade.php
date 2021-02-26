@@ -1,10 +1,10 @@
 @extends('layout.layout')
 @section('title', 'Главная страница')
 @section('content')
-    @foreach ($posts as $post)
-        @include('content.briefpost', ['post' => $post])
+    @foreach ($news as $newsItem)
+        @include('content.briefnews', ['news' => $newsItem])
     @endforeach
 @endsection
 @section('paginator')
-    {{ $posts->links() }}
+    {{ $news->links() }}
 @endsection
