@@ -17,10 +17,16 @@ class Tag extends Model
 
     public function posts()
     {
-        return $this->belongsToMany(Post::class)->where('published', 1);;
+        return $this->morphedByMany(Post::class, 'tagable')->where('published', 1);;
+    }
+    public function news()
+    {
+        return $this->morphedByMany(News::class, 'tagable')->where('published', 1);;
     }
     public static function tagsCloud()
     {
-        return (new static)->has('posts')->get();
+        $postTags = (new static)->has('posts')->get();
+        $newsTags = (new static)->has('news')->get();
+        return $postTags->merge($newsTags);
     }
 }

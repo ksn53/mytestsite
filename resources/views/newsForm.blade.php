@@ -11,6 +11,10 @@
     <label class="form-check-label" for="publishedInput">Опубликовано</label>
 </div>
 <div class="form-group">
+    <label for="tagsInput">Теги</label>
+    <input type="text" name="tags" class="form-control" id="tagsInput" value="{{ old('tags', $news->tags->pluck('name')->implode(',')) }}">
+</div>
+<div class="form-group">
     <label for="briefInput">Бриф</label>
     <textarea name="brief" class="form-control" id="briefInput" placeholder='Бриф' rows="3">{{ old('brief', $news->brief) }}</textarea>
 </div>
