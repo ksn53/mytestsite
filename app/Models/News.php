@@ -23,4 +23,12 @@ class News extends Model
     {
         return $this->morphToMany(Tag::class, 'tagable');
     }
+    /*public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }*/
+    public function comments()
+    {
+        return $this->morphToMany(Comment::class, 'commentable');
+    }
 }

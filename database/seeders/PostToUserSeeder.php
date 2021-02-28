@@ -18,7 +18,7 @@ class PostToUserSeeder extends Seeder
      */
     public function run()
     {
-        Tag::factory()->count(6)->create();
+        Tag::factory()->count(8)->create();
         $user = User::factory()->count(2)->create();
         $this->createPosts($user[0]);
         $this->createPosts($user[1]);
@@ -28,21 +28,21 @@ class PostToUserSeeder extends Seeder
 
     public function createPosts(User $user)
     {
-        Post::factory()->count(2)->create(['owner_id' => $user])->each(
+        Post::factory()->count(12)->create(['owner_id' => $user])->each(
             function(Post $post)
             {
                 $post->tags()->saveMany(Tag::all()->random(3));
-                Comment::factory()->count(2)->create(['post_id' => $post]);
+                $post->comments()->saveMany(Comment::factory()->count(2)->create());
             }
         );
     }
     public function createNews(User $user)
     {
-        News::factory()->count(2)->create(['owner_id' => $user])->each(
+        News::factory()->count(12)->create(['owner_id' => $user])->each(
             function(News $news)
             {
                 $news->tags()->saveMany(Tag::all()->random(3));
-                //Comment::factory()->count(2)->create(['post_id' => $post]);
+                $news->comments()->save(Comment::factory()->create());
             }
         );
     }

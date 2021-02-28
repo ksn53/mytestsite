@@ -17,7 +17,7 @@ Route::resource('/posts', Posts::class);
 Route::resource('/admin/news', NewsController::class, ['except' => ['index', 'show']]);
 Route::get('/news', [IndexNewsController::class, 'index'])->name('newspage');
 Route::get('/news/{news}', [IndexNewsController::class, 'show'])->name('newssinglepage');
-Route::post('/posts/{post}/comment', [Comments::class, 'store'])->name('commentpage');
+Route::post('/comment/{type}/{item}', [Comments::class, 'store'])->name('commentpage');
 Route::get('/', [MainController::class, 'index'])->name('mainpage');
 Route::get('about', [About::class, 'index'])->name('about');
 Route::get('contacts', [Contacts::class, 'index'])->name('contacts');

@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use App\Models\User;
-use App\Models\Comment;
 use App\Events\PostCreated;
 use Illuminate\Support\Facades\Auth;
 
@@ -38,7 +37,7 @@ class Post extends Model
     }
     public function comments()
     {
-        return $this->hasMany(Comment::class);
+        return $this->morphToMany(Comment::class, 'commentable');
     }
     public function owner()
     {

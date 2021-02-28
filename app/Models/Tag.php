@@ -14,7 +14,6 @@ class Tag extends Model
     {
         return 'name';
     }
-
     public function posts()
     {
         return $this->morphedByMany(Post::class, 'tagable')->where('published', 1);;
