@@ -12,6 +12,7 @@ class TagExtract
 
     public function extractTagsId($tags, $item = null)
     {
+        $syncIds = null;
         if (!is_null($item)) {
             $itemTags = $item->tags->keyBy('name');
             $syncIds = $itemTags->intersectByKeys($tags)->pluck('id')->toArray();

@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Models\News;
 use App\Models\User;
 use App\Models\Role;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -22,7 +23,23 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return view ('admin.main');
+        $postCount = count(Post::all());
+        $newsCount = count(Post::all());
+        $longestPost = DB::table('posts')->orderByraw('CHAR_LENGTH(content) DESC')->first();
+        $longestPostContentLength = mb_strlen($longestPost->content);
+        $shortestPost = DB::table('posts')->orderByraw('CHAR_LENGTH(content) ASC')->first();
+        $shortestPostContentLength = mb_strlen($shortestPost->content);
+//SELECT `name` , (SELECT count(*) FROM `posts` WHERE `users`.`id` = `posts`.`owner_id`) AS `Count` FROM `users` ORDER BY `Count` DESC
+        return view ('admin.main', [
+            'postcount' => $postCount,
+            'newscount' => $newsCount,
+            'longestpost' => $longestPost,
+            'shortestPost' => $shortestPost,
+            'longestPostContentLength' => $longestPostContentLength,
+            'shortestPostContentLength' => $shortestPostContentLength,
+            '$userPostCount' => $$userPostCount,
+
+        ]);
     }
 
     public function postlist()
