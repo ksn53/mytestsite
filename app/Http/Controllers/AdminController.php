@@ -29,7 +29,14 @@ class AdminController extends Controller
         $longestPostContentLength = mb_strlen($longestPost->content);
         $shortestPost = DB::table('posts')->orderByraw('CHAR_LENGTH(content) ASC')->first();
         $shortestPostContentLength = mb_strlen($shortestPost->content);
-//SELECT `name` , (SELECT count(*) FROM `posts` WHERE `users`.`id` = `posts`.`owner_id`) AS `Count` FROM `users` ORDER BY `Count` DESC
+
+        $maxPostUser = User::withCount('posts')->orderByDesc('posts_count')->first(['id', 'name', 'posts_count']);
+        $usersWithPostCount = User::withCount('posts')->get(['id', 'name', 'posts_count']);
+        $activeUsers = $usersWithPostCount->filter(function ($value) { return $value->posts_count > 1; });
+        $middlePostCount = $activeUsers->sum('posts_count')/$activeUsers->count();
+        $mostEditedPost = Post::withCount('history')->orderByDesc('history_count')->first(['id', 'title', 'slug', 'history_count']);
+        $mostCommentedPost = Post::withCount('comments')->orderByDesc('comments_count')->first(['id', 'title', 'slug', 'comments_count']);
+
         return view ('admin.main', [
             'postcount' => $postCount,
             'newscount' => $newsCount,
@@ -37,8 +44,10 @@ class AdminController extends Controller
             'shortestPost' => $shortestPost,
             'longestPostContentLength' => $longestPostContentLength,
             'shortestPostContentLength' => $shortestPostContentLength,
-            '$userPostCount' => $$userPostCount,
-
+            'maxPostUser' => $maxPostUser->name,
+            'middlePostCount' => $middlePostCount,
+            'mostEditedPost' => $mostEditedPost,
+            'mostCommentedPost' => $mostCommentedPost,
         ]);
     }
 
