@@ -1,4 +1,4 @@
-<form id="editDataForm" method="post" action="{{ route('commentpage', ['item' => $item, 'type' => $type]) }}" class="mb-3">
+<form id="editDataForm" method="post" action="{{ route('commentpost', ['post' => $post]) }}" class="mb-3">
     @csrf
     <div class="form-group">
         <label for="titleInput">Заголовок</label>

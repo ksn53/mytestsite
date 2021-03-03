@@ -23,16 +23,16 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $postCount = count(Post::all());
-        $newsCount = count(Post::all());
-        $longestPost = DB::table('posts')->orderByraw('CHAR_LENGTH(content) DESC')->first();
+        $postCount = Post::count();
+        $newsCount = News::count();
+
+        $longestPost = Post::orderByraw('CHAR_LENGTH(content) DESC')->first();
         $longestPostContentLength = mb_strlen($longestPost->content);
-        $shortestPost = DB::table('posts')->orderByraw('CHAR_LENGTH(content) ASC')->first();
+        $shortestPost = Post::orderByraw('CHAR_LENGTH(content) ASC')->first();
         $shortestPostContentLength = mb_strlen($shortestPost->content);
 
         $maxPostUser = User::withCount('posts')->orderByDesc('posts_count')->first(['id', 'name', 'posts_count']);
-        $usersWithPostCount = User::withCount('posts')->get(['id', 'name', 'posts_count']);
-        $activeUsers = $usersWithPostCount->filter(function ($value) { return $value->posts_count > 1; });
+        $activeUsers = User::withCount('posts')->having('posts_count', '>', 1)->get(['id', 'name', 'posts_count']);
         $middlePostCount = $activeUsers->sum('posts_count')/$activeUsers->count();
         $mostEditedPost = Post::withCount('history')->orderByDesc('history_count')->first(['id', 'title', 'slug', 'history_count']);
         $mostCommentedPost = Post::withCount('comments')->orderByDesc('comments_count')->first(['id', 'title', 'slug', 'comments_count']);
