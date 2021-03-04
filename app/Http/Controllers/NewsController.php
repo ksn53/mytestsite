@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\News;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Http\Requests\NewsRequestValidate;
+use App\Http\Requests\CommentRequestValidate;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Tag;
-use App\Http\Service\TagExtract;
+use App\Http\Interfaces\Tagable;
 
 class NewsController extends Controller
 {
@@ -32,7 +34,7 @@ class NewsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(NewsRequestValidate $request, TagExtract $tagExtract)
+    public function store(NewsRequestValidate $request, Tagable $tagExtract)
     {
         $validated = $request->validated();
         $validated['owner_id'] = Auth::id();
@@ -62,7 +64,7 @@ class NewsController extends Controller
      * @param  \App\Models\News  $news
      * @return \Illuminate\Http\Response
      */
-    public function update(News $news, NewsRequestValidate $request, TagExtract $tagExtract)
+    public function update(News $news, NewsRequestValidate $request, Tagable $tagExtract)
     {
         $validated = $request->validated();
         $news->update($validated);
@@ -84,5 +86,13 @@ class NewsController extends Controller
             return redirect(route('admin.news.list'));
         }
         return back();
+    }
+    public function storeNewsComment(CommentRequestValidate $request, News $item)
+    {
+        $validated = $request->validated();
+        $validated['owner_id'] = Auth::id();
+        $item->comments()->save(Comment::create($validated));
+        flash('Комментарий добавлен.');
+        return redirect(route('mainpage'));
     }
 }

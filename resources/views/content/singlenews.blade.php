@@ -6,7 +6,7 @@
 </div>
     <div class="container">
         @auth
-            @include('commentAdd', ['item' => $news, 'type' => 'news'])
+            @include('commentAdd', ['item' => $news, 'route' => 'commentnews'])
         @else
             Нужно загеристрироваться, чтобы писать комментарии.
         @endauth

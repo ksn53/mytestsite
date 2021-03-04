@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Tag;
+use App\Models\Comment;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\PostUpdated;
-use App\Http\Service\TagExtract;
 use App\Http\Requests\PostRequestValidate;
+use App\Http\Requests\CommentRequestValidate;
+use App\Http\Interfaces\Tagable;
 
 class Posts extends Controller
 {
@@ -37,7 +39,7 @@ class Posts extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PostRequestValidate $request, TagExtract $tagExtract)
+    public function store(PostRequestValidate $request, Tagable $tagExtract)
     {
         $validated = $request->validated();
         $validated['owner_id'] = Auth::id();
@@ -49,7 +51,7 @@ class Posts extends Controller
         flash('Статья успешно создана.');
         return redirect(route('mainpage'));
     }
-    public function update(Post $post, PostRequestValidate $request, TagExtract $tagExtract)
+    public function update(Post $post, PostRequestValidate $request, Tagable $tagExtract)
     {
         $validated = $request->validated();
         $post->update($validated);
@@ -71,6 +73,14 @@ class Posts extends Controller
         if ($request->adminmode) {
             return back();
         }
+        return redirect(route('mainpage'));
+    }
+    public function storePostComment(CommentRequestValidate $request, Post $item)
+    {
+        $validated = $request->validated();
+        $validated['owner_id'] = Auth::id();
+        $item->comments()->save(Comment::create($validated));
+        flash('Комментарий добавлен.');
         return redirect(route('mainpage'));
     }
 }

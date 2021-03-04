@@ -6,6 +6,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use App\Http\Interfaces\Tagable;
+use App\Http\Service\TagExtract;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,6 +18,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->bind(Tagable::class, TagExtract::class);
     }
 
     /**
@@ -31,9 +34,5 @@ class AppServiceProvider extends ServiceProvider
         });
         Paginator::defaultView('pagination::bootstrap-4');
         Paginator::defaultSimpleView('pagination::simple-default');
-        Relation::morphMap([
-            'post' => 'App\Models\Post',
-            'news' => 'App\Models\News',
-        ]);
     }
 }

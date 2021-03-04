@@ -6,8 +6,9 @@ use App\Models\Post;
 use App\Models\News;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use App\Http\Interfaces\Tagable;
 
-class TagExtract
+class TagExtract implements Tagable
 {
 
     public function extractTagsId($tags, $item = null)

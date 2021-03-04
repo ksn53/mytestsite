@@ -21,7 +21,7 @@
     @endforelse
     <div class="container">
         @auth
-            @include('commentAdd', ['post' => $post])
+            @include('commentAdd', ['item' => $post, 'route' => 'commentpost'])
         @else
             Нужно загеристрироваться, чтобы писать комментарии.
         @endauth
