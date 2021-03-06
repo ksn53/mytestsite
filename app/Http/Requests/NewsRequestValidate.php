@@ -30,6 +30,7 @@ class NewsRequestValidate extends FormRequest
             'content' => 'required',
             'published' => 'in:null,1',
             'slug' => 'required|alpha_dash|max:5|unique:news',
+            'tags' => 'sometimes',
         ];
 
         if ($this->news) {
@@ -40,9 +41,9 @@ class NewsRequestValidate extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'published' => $this->publishedFilter($this->published)
+            'published' => $this->publishedFilter($this->published),
+            'tags' => $this->tagsFilter($this->tags),
         ]);
-
     }
     protected function publishedFilter($published)
     {
@@ -51,5 +52,10 @@ class NewsRequestValidate extends FormRequest
             $filtered = 1;
         }
         return $filtered;
+    }
+    protected function tagsFilter($tags)
+    {
+        $tagsArray = array_filter(array_map('trim', explode(',', $tags)), 'strlen');
+        return collect($tagsArray)->keyBy(function ($item) { return $item; });
     }
 }

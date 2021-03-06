@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
-use App\Models\Tag;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\PostUpdated;
-use App\Http\Service\TagExtract;
 use App\Http\Requests\PostRequestValidate;
+use App\Http\Requests\CommentRequestValidate;
+use App\Http\Service\CommentAdd;
+use App\Http\Service\TagExtract;
 
 class Posts extends Controller
 {
@@ -45,7 +46,6 @@ class Posts extends Controller
         if (!is_null($validated['tags'])) {
             $post->tags()->sync($tagExtract->extractTagsId($validated['tags']));
         }
-
         flash('Статья успешно создана.');
         return redirect(route('mainpage'));
     }
@@ -72,5 +72,9 @@ class Posts extends Controller
             return back();
         }
         return redirect(route('mainpage'));
+    }
+    public function storePostComment(CommentRequestValidate $request, Post $item, CommentAdd $commentadd)
+    {
+        return $commentadd->storeComment($request, $item);
     }
 }

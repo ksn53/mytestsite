@@ -2,18 +2,17 @@
 
 namespace App\Http\Service;
 
-use App\Models\Post;
 use App\Models\Tag;
-use Illuminate\Http\Request;
+use App\Http\Interfaces\HasTags;
 
 class TagExtract
 {
-
-    public function extractTagsId($tags, Post $post = null)
+    public function extractTagsId($tags, HasTags $item = null)
     {
-        if (!is_null($post)) {
-            $postTags = $post->tags->keyBy('name');
-            $syncIds = $postTags->intersectByKeys($tags)->pluck('id')->toArray();
+        $syncIds = null;
+        if (!is_null($item)) {
+            $itemTags = $item->tags->keyBy('name');
+            $syncIds = $itemTags->intersectByKeys($tags)->pluck('id')->toArray();
         }
         foreach ($tags as $tag) {
             if ($tag) {

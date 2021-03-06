@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use App\Models\User;
-use App\Models\Comment;
 use App\Events\PostCreated;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Interfaces\HasTags;
+use App\Http\Interfaces\HasComments;
 
-class Post extends Model
+class Post extends Model implements HasTags, HasComments
 {
     use HasFactory;
     public $fillable = ['title', 'slug', 'brief', 'content', 'published', 'owner_id'];
@@ -34,11 +35,11 @@ class Post extends Model
     }
     public function tags()
     {
-        return $this->belongsToMany(Tag::class);
+        return $this->morphToMany(Tag::class, 'tagable');
     }
     public function comments()
     {
-        return $this->hasMany(Comment::class);
+        return $this->morphToMany(Comment::class, 'commentable');
     }
     public function owner()
     {

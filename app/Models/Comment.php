@@ -6,15 +6,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Post;
+use App\Models\News;
 
 class Comment extends Model
 {
     use HasFactory;
-    public $fillable = ['title', 'content', 'post_id', 'owner_id'];
+    public $fillable = ['title', 'content', 'owner_id'];
 
-    public function post()
+    public function commentable()
     {
-        return $this->belongsTo(Post::class);
+        return $this->morphTo();
     }
     public function owner()
     {

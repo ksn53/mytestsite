@@ -26,7 +26,6 @@ class CommentFactory extends Factory
         return [
             'title' => $this->faker->sentence(),
             'owner_id' => User::factory(),
-            'post_id' => Post::factory(),
             'content' => $this->faker->paragraph(2),
         ];
     }

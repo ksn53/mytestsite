@@ -44,7 +44,6 @@ class PostRequestValidate extends FormRequest
             'published' => $this->publishedFilter($this->published),
             'tags' => $this->tagsFilter($this->tags),
         ]);
-
     }
     protected function publishedFilter($published)
     {
