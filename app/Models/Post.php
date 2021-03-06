@@ -8,8 +8,10 @@ use Illuminate\Support\Arr;
 use App\Models\User;
 use App\Events\PostCreated;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Interfaces\HasTags;
+use App\Http\Interfaces\HasComments;
 
-class Post extends Model
+class Post extends Model implements HasTags, HasComments
 {
     use HasFactory;
     public $fillable = ['title', 'slug', 'brief', 'content', 'published', 'owner_id'];

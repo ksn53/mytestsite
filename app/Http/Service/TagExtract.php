@@ -2,16 +2,12 @@
 
 namespace App\Http\Service;
 
-use App\Models\Post;
-use App\Models\News;
 use App\Models\Tag;
-use Illuminate\Http\Request;
-use App\Http\Interfaces\Tagable;
+use App\Http\Interfaces\HasTags;
 
-class TagExtract implements Tagable
+class TagExtract
 {
-
-    public function extractTagsId($tags, $item = null)
+    public function extractTagsId($tags, HasTags $item = null)
     {
         $syncIds = null;
         if (!is_null($item)) {
