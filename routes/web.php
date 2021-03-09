@@ -29,6 +29,9 @@ Route::get('/admin/postlist', [AdminController::class, 'postlist'])->name('admin
 Route::get('/admin/newslist', [AdminController::class, 'newslist'])->name('admin.news.list');
 Route::get('/admin/userlist', [AdminController::class, 'userlist'])->name('admin.user.list');
 Route::get('/admin/rolelist', [AdminController::class, 'rolelist'])->name('admin.role.list');
+Route::get('/testrepo', function(){
+    \App\Jobs\PostsReport::dispatchNow();
+});
 Auth::routes();
 
 
