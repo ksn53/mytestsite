@@ -72,5 +72,13 @@ class AdminController extends Controller
         $roles = Role::orderBy('name', 'DESC')->get();
         return view ('admin.rolelist', compact('roles'));
     }
+    public function reportall()
+    {
+        return view ('admin.reportAllForm');
+    }
+    public function reportlist()
+    {
+        return view ('admin.reportlist');
+    }
 
 }

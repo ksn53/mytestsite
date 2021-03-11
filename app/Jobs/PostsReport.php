@@ -35,7 +35,6 @@ class PostsReport implements ShouldQueue
     public function handle()
     {
         $postsCount = Post::get()->count();
-        echo "количество статей: " . $postsCount;
         Mail::to(User::where('name', 'admin')->pluck('email'))->send(new PostReportMail($postsCount));
     }
 }
