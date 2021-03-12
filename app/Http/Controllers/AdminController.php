@@ -80,5 +80,9 @@ class AdminController extends Controller
     {
         return view ('admin.reportlist');
     }
+    public function sendReportAll(Request $request)
+    {
+        \App\Jobs\PostsReport::dispatch();
+    }
 
 }

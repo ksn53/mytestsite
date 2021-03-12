@@ -31,6 +31,7 @@ Route::get('/admin/userlist', [AdminController::class, 'userlist'])->name('admin
 Route::get('/admin/rolelist', [AdminController::class, 'rolelist'])->name('admin.role.list');
 Route::get('/admin/reportlist', [AdminController::class, 'reportlist'])->name('admin.report.list');
 Route::get('/admin/reportall', [AdminController::class, 'reportall'])->name('admin.report.all');
+Route::post('/admin/sendreportall', [AdminController::class, 'sendReportAll'])->name('admin.report.send');
 Route::get('/testrepo', function(){
     \App\Jobs\PostsReport::dispatch();
 });

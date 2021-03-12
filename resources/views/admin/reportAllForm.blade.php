@@ -1,15 +1,29 @@
 @extends('admin.admin')
 @section('content')
-    <form id="editDataForm" method="post" action="" class="mb-3">
+    <form id="editDataForm" method="post" action="{{ route('admin.report.send') }}" class="mb-3">
     @csrf
-    <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Выберите тип отчёта</button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
+        Выберите компоненты отчёта
+        <div class="form-check">
+            <input name="posts" type="checkbox" class="form-check-input" id="exampleCheck1" checked>
+            <label class="form-check-label" for="exampleCheck1">Статьи</label>
         </div>
-    </div>
+        <div class="form-check">
+            <input name="news" type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Новости</label>
+        </div>
+        <div class="form-check">
+            <input name="comments" type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Комментарии</label>
+        </div>
+        <div class="form-check">
+            <input name="tags" type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label \ class="form-check-label" for="exampleCheck1">Теги</label>
+        </div>
+        <div class="form-check">
+            <input name="users" type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Пользователи</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 @endsection
 @section('paginator')
