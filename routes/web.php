@@ -33,7 +33,11 @@ Route::get('/admin/reportlist', [AdminController::class, 'reportlist'])->name('a
 Route::get('/admin/reportall', [AdminController::class, 'reportall'])->name('admin.report.all');
 Route::post('/admin/sendreportall', [AdminController::class, 'sendReportAll'])->name('admin.report.send');
 Route::get('/testrepo', function(){
-    \App\Jobs\PostsReport::dispatch();
+    $showPostsCount = 1;
+    $showUsersCount = 1;
+    $showNewsCount = 1;
+    $showTagsCount = 0;
+    \App\Jobs\PostsReport::dispatchNow($showPostsCount, $showUsersCount, $showNewsCount, $showTagsCount);
 });
 Auth::routes();
 

@@ -82,7 +82,24 @@ class AdminController extends Controller
     }
     public function sendReportAll(Request $request)
     {
-        \App\Jobs\PostsReport::dispatch();
+        $showPostsCount = null;
+        $showUsersCount = null;
+        $showNewsCount = null;
+        $showTagsCount = null;
+        if ($request->posts == 'on') {
+            $showPostsCount = 1;
+        }
+        if ($request->news == 'on') {
+            $showNewsCount = 1;
+        }
+        if ($request->tags == 'on') {
+            $showTagsCount = 1;
+        }
+        if ($request->users == 'on') {
+            $showUsersCount = 1;
+        }
+        \App\Jobs\PostsReport::dispatchNow($showPostsCount, $showUsersCount, $showNewsCount, $showTagsCount);
+        return view ('admin.reportlist');
     }
 
 }

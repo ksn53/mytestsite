@@ -11,14 +11,20 @@ class PostReportMail extends Mailable
 {
     use Queueable, SerializesModels;
     public $postsCount;
+    public $usersCount;
+    public $newsCount;
+    public $tagsCount;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($postsCount)
+    public function __construct($postsCount = null, $usersCount = null, $newsCount = null, $tagsCount = null)
     {
         $this->postsCount = $postsCount;
+        $this->usersCount = $usersCount;
+        $this->newsCount = $newsCount;
+        $this->tagsCount = $tagsCount;
     }
 
     /**
@@ -28,6 +34,6 @@ class PostReportMail extends Mailable
      */
     public function build()
     {
-        return $this->from(config('mail.mailers.smtp.admin_email'))->markdown('mail.postcount-report');
+        return $this->from(config('mail.mailers.smtp.admin_email'))->markdown('mail.itemscount-report');
     }
 }
