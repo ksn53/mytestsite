@@ -14,17 +14,19 @@ class PostReportMail extends Mailable
     public $usersCount;
     public $newsCount;
     public $tagsCount;
+    public $commentsCount;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($postsCount = null, $usersCount = null, $newsCount = null, $tagsCount = null)
+    public function __construct($postsCount = null, $usersCount = null, $newsCount = null, $tagsCount = null, $commentsCount = null)
     {
         $this->postsCount = $postsCount;
         $this->usersCount = $usersCount;
         $this->newsCount = $newsCount;
         $this->tagsCount = $tagsCount;
+        $this->commentsCount = $commentsCount;
     }
 
     /**

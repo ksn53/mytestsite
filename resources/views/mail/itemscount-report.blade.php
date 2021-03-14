@@ -13,7 +13,11 @@
 @endif
 
 @if ($tagsCount)
-    Всего всего тегов: {{ $tagsCount }}
+    Всего тегов: {{ $tagsCount }}
+@endif
+
+@if ($commentsCount)
+    Всего комментариев: {{ $commentsCount }}
 @endif
 
 Thanks,<br>

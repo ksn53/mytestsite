@@ -25,17 +25,19 @@ class PostsReport implements ShouldQueue
     protected $showUsersCount;
     protected $showNewsCount;
     protected $showTagsCount;
+    protected $showCommentsCount;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($showPostsCount = null, $showUsersCount = null, $showNewsCount = null, $showTagsCount = null)
+    public function __construct($showPostsCount = null, $showUsersCount = null, $showNewsCount = null, $showTagsCount = null, $showCommentsCount = null)
     {
         $this->showPostsCount = $showPostsCount;
         $this->showUsersCount = $showUsersCount;
         $this->showNewsCount = $showNewsCount;
         $this->showTagsCount = $showTagsCount;
+        $this->showCommentsCount = $showCommentsCount;
     }
 
     /**
@@ -50,19 +52,22 @@ class PostsReport implements ShouldQueue
         $usersCount = null;
         $newsCount = null;
         $tagsCount = null;
-        if ($this->showPostsCount == 1) {
+        $commentsCount = null;
+        if ($this->showPostsCount == 'on') {
             $postsCount = Post::get()->count();
         }
-        if ($this->showUsersCount == 1) {
+        if ($this->showUsersCount == 'on') {
             $usersCount = User::get()->count();
         }
-        if ($this->showNewsCount == 1) {
+        if ($this->showNewsCount == 'on') {
             $newsCount = News::get()->count();
         }
-        if ($this->showTagsCount == 1) {
+        if ($this->showTagsCount == 'on') {
             $tagsCount = Tag::get()->count();
         }
-        $commentsCount = Comment::get()->count();
-        Mail::to($email)->send(new PostReportMail($postsCount, $usersCount, $newsCount, $tagsCount));
+        if ($this->showCommentsCount == 'on') {
+            $commentsCount = Comment::get()->count();
+        }
+        Mail::to($email)->send(new PostReportMail($postsCount, $usersCount, $newsCount, $tagsCount, $commentsCount));
     }
 }

@@ -82,23 +82,12 @@ class AdminController extends Controller
     }
     public function sendReportAll(Request $request)
     {
-        $showPostsCount = null;
-        $showUsersCount = null;
-        $showNewsCount = null;
-        $showTagsCount = null;
-        if ($request->posts == 'on') {
-            $showPostsCount = 1;
+        if (!$request->posts && !$request->users && !$request->news && !$request->tags && !$request->comments) {
+            flash('Не выбран ни один элемент. Отчёт не создан!', 'warning');
+            return view ('admin.reportlist');
         }
-        if ($request->news == 'on') {
-            $showNewsCount = 1;
-        }
-        if ($request->tags == 'on') {
-            $showTagsCount = 1;
-        }
-        if ($request->users == 'on') {
-            $showUsersCount = 1;
-        }
-        \App\Jobs\PostsReport::dispatchNow($showPostsCount, $showUsersCount, $showNewsCount, $showTagsCount);
+        \App\Jobs\PostsReport::dispatch($request->posts, $request->users, $request->news, $request->tags, $request->comments);
+        flash('Отчёт создан и отправлен на почту.');
         return view ('admin.reportlist');
     }
 
