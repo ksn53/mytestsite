@@ -7,7 +7,7 @@ use App\Models\Post;
 use App\Models\News;
 use App\Models\User;
 use App\Models\Role;
-use Illuminate\Support\Facades\DB;
+use App\Http\Requests\ReportRequestValidate;
 
 class AdminController extends Controller
 {
@@ -80,7 +80,7 @@ class AdminController extends Controller
     {
         return view ('admin.reportlist');
     }
-    public function sendReportAll(Request $request)
+    public function sendReportAll(ReportRequestValidate $request)
     {
         if (!$request->posts && !$request->users && !$request->news && !$request->tags && !$request->comments) {
             flash('Не выбран ни один элемент. Отчёт не создан!', 'warning');

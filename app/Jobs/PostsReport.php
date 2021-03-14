@@ -53,20 +53,20 @@ class PostsReport implements ShouldQueue
         $newsCount = null;
         $tagsCount = null;
         $commentsCount = null;
-        if ($this->showPostsCount == 'on') {
-            $postsCount = Post::get()->count();
+        if ($this->showPostsCount) {
+            $postsCount = Post::count();
         }
-        if ($this->showUsersCount == 'on') {
-            $usersCount = User::get()->count();
+        if ($this->showUsersCount) {
+            $usersCount = User::count();
         }
-        if ($this->showNewsCount == 'on') {
-            $newsCount = News::get()->count();
+        if ($this->showNewsCount) {
+            $newsCount = News::count();
         }
-        if ($this->showTagsCount == 'on') {
-            $tagsCount = Tag::get()->count();
+        if ($this->showTagsCount) {
+            $tagsCount = Tag::count();
         }
-        if ($this->showCommentsCount == 'on') {
-            $commentsCount = Comment::get()->count();
+        if ($this->showCommentsCount) {
+            $commentsCount = Comment::count();
         }
         Mail::to($email)->send(new PostReportMail($postsCount, $usersCount, $newsCount, $tagsCount, $commentsCount));
     }
