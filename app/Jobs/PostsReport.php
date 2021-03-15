@@ -13,7 +13,6 @@ use App\Models\User;
 use App\Models\News;
 use App\Models\Tag;
 use App\Models\Comment;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PostReportMail;
 
@@ -26,18 +25,20 @@ class PostsReport implements ShouldQueue
     protected $showNewsCount;
     protected $showTagsCount;
     protected $showCommentsCount;
+    protected $email;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($showPostsCount = null, $showUsersCount = null, $showNewsCount = null, $showTagsCount = null, $showCommentsCount = null)
+    public function __construct($email, $showPostsCount = null, $showUsersCount = null, $showNewsCount = null, $showTagsCount = null, $showCommentsCount = null)
     {
         $this->showPostsCount = $showPostsCount;
         $this->showUsersCount = $showUsersCount;
         $this->showNewsCount = $showNewsCount;
         $this->showTagsCount = $showTagsCount;
         $this->showCommentsCount = $showCommentsCount;
+        $this->email = $email;
     }
 
     /**
@@ -47,7 +48,6 @@ class PostsReport implements ShouldQueue
      */
     public function handle()
     {
-        $email = Auth::user()->email;
         $postsCount = null;
         $usersCount = null;
         $newsCount = null;
@@ -68,6 +68,6 @@ class PostsReport implements ShouldQueue
         if ($this->showCommentsCount) {
             $commentsCount = Comment::count();
         }
-        Mail::to($email)->send(new PostReportMail($postsCount, $usersCount, $newsCount, $tagsCount, $commentsCount));
+        Mail::to($this->email)->send(new PostReportMail($postsCount, $usersCount, $newsCount, $tagsCount, $commentsCount));
     }
 }

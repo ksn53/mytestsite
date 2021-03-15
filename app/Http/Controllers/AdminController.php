@@ -8,6 +8,7 @@ use App\Models\News;
 use App\Models\User;
 use App\Models\Role;
 use App\Http\Requests\ReportRequestValidate;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -86,7 +87,7 @@ class AdminController extends Controller
             flash('Не выбран ни один элемент. Отчёт не создан!', 'warning');
             return view ('admin.reportlist');
         }
-        \App\Jobs\PostsReport::dispatch($request->posts, $request->users, $request->news, $request->tags, $request->comments);
+        \App\Jobs\PostsReport::dispatch(Auth::user()->email, $request->posts, $request->users, $request->news, $request->tags, $request->comments);
         flash('Отчёт создан и отправлен на почту.');
         return view ('admin.reportlist');
     }
