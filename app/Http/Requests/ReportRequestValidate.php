@@ -45,10 +45,6 @@ class ReportRequestValidate extends FormRequest
     }
     protected function checkedFilter($checked)
     {
-        $filtered = null;
-        if ($checked == "on") {
-            $filtered = true;
-        }
-        return $filtered;
+        return $checked == "on" ? : false;
     }
 }
