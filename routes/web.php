@@ -29,6 +29,9 @@ Route::get('/admin/postlist', [AdminController::class, 'postlist'])->name('admin
 Route::get('/admin/newslist', [AdminController::class, 'newslist'])->name('admin.news.list');
 Route::get('/admin/userlist', [AdminController::class, 'userlist'])->name('admin.user.list');
 Route::get('/admin/rolelist', [AdminController::class, 'rolelist'])->name('admin.role.list');
+Route::get('/admin/reportlist', [AdminController::class, 'reportlist'])->name('admin.report.list');
+Route::get('/admin/reportall', [AdminController::class, 'reportall'])->name('admin.report.all');
+Route::post('/admin/sendreportall', [AdminController::class, 'sendReportAll'])->name('admin.report.send');
 Auth::routes();
 
 

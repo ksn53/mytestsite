@@ -19,6 +19,9 @@
       <li class="nav-item">
           <a class="nav-link" href="{{ route('admin.role.list') }}">Роли</a>
       </li>
+      <li class="nav-item">
+          <a class="nav-link" href="{{ route('admin.report.list') }}">Отчёты</a>
+      </li>
     </ul>
   </div>
 </nav>

@@ -7,7 +7,8 @@ use App\Models\Post;
 use App\Models\News;
 use App\Models\User;
 use App\Models\Role;
-use Illuminate\Support\Facades\DB;
+use App\Http\Requests\ReportRequestValidate;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -71,6 +72,24 @@ class AdminController extends Controller
     {
         $roles = Role::orderBy('name', 'DESC')->get();
         return view ('admin.rolelist', compact('roles'));
+    }
+    public function reportall()
+    {
+        return view ('admin.reportAllForm');
+    }
+    public function reportlist()
+    {
+        return view ('admin.reportlist');
+    }
+    public function sendReportAll(ReportRequestValidate $request)
+    {
+        if (!$request->posts && !$request->users && !$request->news && !$request->tags && !$request->comments) {
+            flash('Не выбран ни один элемент. Отчёт не создан!', 'warning');
+            return view ('admin.reportlist');
+        }
+        \App\Jobs\PostsReport::dispatch(Auth::user()->email, $request->posts, $request->users, $request->news, $request->tags, $request->comments);
+        flash('Отчёт создан и отправлен на почту.');
+        return view ('admin.reportlist');
     }
 
 }
