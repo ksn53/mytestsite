@@ -21,7 +21,7 @@
         @include('layout.sidebar')
     @show
   </div><!-- /.row -->
-
+@include('layout.popupMessage')
 </main><!-- /.container -->
     @include('layout.footer')
     <script src="{{ mix("/js/app.js") }}"></script>

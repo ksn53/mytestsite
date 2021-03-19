@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use App\Models\User;
 use App\Events\PostCreated;
+use App\Events\PostUpdated;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Interfaces\HasTags;
 use App\Http\Interfaces\HasComments;
@@ -18,6 +19,7 @@ class Post extends Model implements HasTags, HasComments
 
     protected $dispatchesEvents = [
         'created' => PostCreated::class,
+        'updated' => PostUpdated::class,
     ];
 
     protected static function boot()

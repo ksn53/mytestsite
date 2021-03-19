@@ -32,6 +32,9 @@ Route::get('/admin/rolelist', [AdminController::class, 'rolelist'])->name('admin
 Route::get('/admin/reportlist', [AdminController::class, 'reportlist'])->name('admin.report.list');
 Route::get('/admin/reportall', [AdminController::class, 'reportall'])->name('admin.report.all');
 Route::post('/admin/sendreportall', [AdminController::class, 'sendReportAll'])->name('admin.report.send');
+Route::get('/test', function(){
+    event(new App\Events\PostUpdated());
+});
 Auth::routes();
 
 
