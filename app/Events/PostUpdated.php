@@ -14,24 +14,27 @@ use App\Models\Post;
 class PostUpdated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    public $post;
-    /**
-     * Create a new event instance.
-     *
-     * @return void
-     */
+    private $post;
+
     public function __construct(Post $post)
     {
         $this->post = $post;
     }
 
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return \Illuminate\Broadcasting\Channel|array
-     */
     public function broadcastOn()
     {
         return new PrivateChannel('PostUpdate-channel');
+    }
+    public function broadcastWith()
+    {
+        $fields = '';
+        foreach (json_decode($this->post->history->last()->pivot->after, true) as $key => $value) {
+            $fields = $fields . " " . $key;
+        }
+
+        return ['title' => $this->post->title,
+                'slug' => $this->post->slug,
+                'fields' => $fields,
+                ];
     }
 }
