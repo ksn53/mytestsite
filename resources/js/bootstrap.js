@@ -46,5 +46,8 @@ window.Echo = new Echo({
     broadcaster: 'socket.io',
     host: window.location.hostname + ":6001"
 });
-
 require("./echo.js");
+if (window.location.pathname.includes("/admin/reportall")){
+    require("./echoReport.js");
+}
+

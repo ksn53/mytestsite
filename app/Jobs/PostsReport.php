@@ -20,24 +20,24 @@ class PostsReport implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $showPostsCount;
-    protected $showUsersCount;
-    protected $showNewsCount;
-    protected $showTagsCount;
-    protected $showCommentsCount;
+    protected $postsCount;
+    protected $usersCount;
+    protected $newsCount;
+    protected $tagsCount;
+    protected $commentsCount;
     protected $email;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($email, $showPostsCount = null, $showUsersCount = null, $showNewsCount = null, $showTagsCount = null, $showCommentsCount = null)
+    public function __construct($email, $postsCount = null, $usersCount = null, $newsCount = null, $tagsCount = null, $commentsCount = null)
     {
-        $this->showPostsCount = $showPostsCount;
-        $this->showUsersCount = $showUsersCount;
-        $this->showNewsCount = $showNewsCount;
-        $this->showTagsCount = $showTagsCount;
-        $this->showCommentsCount = $showCommentsCount;
+        $this->postsCount = $postsCount;
+        $this->usersCount = $usersCount;
+        $this->newsCount = $newsCount;
+        $this->tagsCount = $tagsCount;
+        $this->commentsCount = $commentsCount;
         $this->email = $email;
     }
 
@@ -48,26 +48,6 @@ class PostsReport implements ShouldQueue
      */
     public function handle()
     {
-        $postsCount = null;
-        $usersCount = null;
-        $newsCount = null;
-        $tagsCount = null;
-        $commentsCount = null;
-        if ($this->showPostsCount) {
-            $postsCount = Post::count();
-        }
-        if ($this->showUsersCount) {
-            $usersCount = User::count();
-        }
-        if ($this->showNewsCount) {
-            $newsCount = News::count();
-        }
-        if ($this->showTagsCount) {
-            $tagsCount = Tag::count();
-        }
-        if ($this->showCommentsCount) {
-            $commentsCount = Comment::count();
-        }
-        Mail::to($this->email)->send(new PostReportMail($postsCount, $usersCount, $newsCount, $tagsCount, $commentsCount));
+        Mail::to($this->email)->send(new PostReportMail($this->postsCount, $this->usersCount, $this->newsCount, $this->tagsCount, $this->commentsCount));
     }
 }

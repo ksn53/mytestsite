@@ -18,3 +18,4 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 });
 
 Broadcast::channel('PostUpdate-channel', \App\Broadcasting\PostUpdated::class);
+Broadcast::channel('ReportCreated-channel', \App\Broadcasting\PostUpdated::class);

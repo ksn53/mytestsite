@@ -27,5 +27,5 @@
     </form>
 @endsection
 @section('paginator')
-
+@include('layout.popupMessage')
 @endsection

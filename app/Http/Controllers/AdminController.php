@@ -7,6 +7,8 @@ use App\Models\Post;
 use App\Models\News;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Tag;
+use App\Models\Comment;
 use App\Http\Requests\ReportRequestValidate;
 use Illuminate\Support\Facades\Auth;
 
@@ -85,11 +87,32 @@ class AdminController extends Controller
     {
         if (!$request->posts && !$request->users && !$request->news && !$request->tags && !$request->comments) {
             flash('Не выбран ни один элемент. Отчёт не создан!', 'warning');
-            return view ('admin.reportlist');
+            return view ('admin.reportAllForm');
         }
-        \App\Jobs\PostsReport::dispatch(Auth::user()->email, $request->posts, $request->users, $request->news, $request->tags, $request->comments);
+        $postsCount = null;
+        $usersCount = null;
+        $newsCount = null;
+        $tagsCount = null;
+        $commentsCount = null;
+        if ($request->posts) {
+            $postsCount = Post::count();
+        }
+        if ($request->users) {
+            $usersCount = User::count();
+        }
+        if ($request->news) {
+            $newsCount = News::count();
+        }
+        if ($request->tags) {
+            $tagsCount = Tag::count();
+        }
+        if ($request->comments) {
+            $commentsCount = Comment::count();
+        }
+        \App\Jobs\PostsReport::dispatch(Auth::user()->email, $postsCount, $usersCount, $newsCount, $tagsCount, $commentsCount);
         flash('Отчёт создан и отправлен на почту.');
-        return view ('admin.reportlist');
+        event(new \App\Events\ReportCreated($postsCount, $usersCount, $newsCount, $tagsCount, $commentsCount));
+        return view ('admin.reportAllForm');
     }
 
 }
