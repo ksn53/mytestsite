@@ -28,13 +28,9 @@ class PostUpdated implements ShouldBroadcast
     public function broadcastWith()
     {
         $fields = '';
-        foreach (json_decode($this->post->history->last()->pivot->after, true) as $key => $value) {
+        foreach ($this->post->history->last()->pivot->after as $key => $value) {
             $fields = $fields . " " . $key;
         }
-
-        return ['title' => $this->post->title,
-                'slug' => $this->post->slug,
-                'fields' => $fields,
-                ];
+        return ['title' => $this->post->title, 'slug' => $this->post->slug, 'fields' => $fields,];
     }
 }

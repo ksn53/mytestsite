@@ -11,6 +11,8 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    //protected $casts = ['email_verified_at' => 'datetime', 'relations.pivot.before' => 'array'];
+    protected $casts = ['email_verified_at' => 'datetime'];
     /**
      * The attributes that are mass assignable.
      *
@@ -30,10 +32,6 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-    ];
-
-    protected $casts = [
-        'email_verified_at' => 'datetime',
     ];
 
     public function posts()

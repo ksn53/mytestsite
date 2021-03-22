@@ -8,11 +8,11 @@
     <hr>
         <p>{{ $item->email }} {{ $item->pivot->created_at->diffForHumans() }}<br>
             Было:<br>
-            @foreach(json_decode($item->pivot->before, true) as $key => $value)
+            @foreach($item->pivot->before as $key => $value)
                 Поле: {{ $key }} - {{ $value }}<br>
             @endforeach
             Стало:<br>
-            @foreach(json_decode($item->pivot->after, true) as $key => $value)
+            @foreach($item->pivot->after as $key => $value)
                 Поле: {{ $key }} - {{ $value }}<br>
             @endforeach
         </p>
