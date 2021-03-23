@@ -10,8 +10,6 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
-
-    //protected $casts = ['email_verified_at' => 'datetime', 'relations.pivot.before' => 'array'];
     protected $casts = ['email_verified_at' => 'datetime'];
     /**
      * The attributes that are mass assignable.
