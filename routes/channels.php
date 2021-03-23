@@ -16,3 +16,6 @@ use Illuminate\Support\Facades\Broadcast;
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
+
+Broadcast::channel('PostUpdate-channel', \App\Broadcasting\PostUpdated::class);
+Broadcast::channel('ReportCreated-channel', \App\Broadcasting\PostUpdated::class);

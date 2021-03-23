@@ -69,5 +69,6 @@ class PostsReport implements ShouldQueue
             $commentsCount = Comment::count();
         }
         Mail::to($this->email)->send(new PostReportMail($postsCount, $usersCount, $newsCount, $tagsCount, $commentsCount));
+        event(new \App\Events\ReportCreated($postsCount, $usersCount, $newsCount, $tagsCount, $commentsCount));
     }
 }

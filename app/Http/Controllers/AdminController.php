@@ -88,8 +88,9 @@ class AdminController extends Controller
             return view ('admin.reportlist');
         }
         \App\Jobs\PostsReport::dispatch(Auth::user()->email, $request->posts, $request->users, $request->news, $request->tags, $request->comments);
-        flash('Отчёт создан и отправлен на почту.');
-        return view ('admin.reportlist');
+        flash('Отчёт в процессе формирования и будет отправлен на почту.');
+        //event(new \App\Events\ReportCreated($request->posts, $request->users, $request->news, $request->tags, $request->comments));
+        return view ('admin.reportAllForm');
     }
 
 }

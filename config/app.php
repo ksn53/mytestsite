@@ -171,7 +171,7 @@ return [
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
+        App\Providers\BroadcastServiceProvider::class,
         App\Providers\RolesServiceProvider::class,
         App\Providers\PushAllServiceProvider::class,
         //App\Providers\TegExtractServiceProvider::class,
