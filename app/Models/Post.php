@@ -30,13 +30,17 @@ class Post extends Model implements HasTags, HasComments
         });
 
         static::created(function(){
-            \Cache::tags(['posts'])->flush();
+            \Cache::tags(['posts', 'adminPostList', 'postReport'])->flush();
         });
-        static::updated(function(){
+        static::updated(function(Post $post){
             \Cache::tags(['posts'])->flush();
+            \Cache::tags(['post|' . $post->slug])->flush();
+            \Cache::tags(['adminPostList', 'postReport'])->flush();
         });
-        static::deleted(function(){
+        static::deleted(function(Post $post){
             \Cache::tags(['posts'])->flush();
+            \Cache::tags(['post|' . $post->slug])->flush();
+            \Cache::tags(['adminPostList', 'postReport'])->flush();
         });
     }
     public function getRouteKeyName()

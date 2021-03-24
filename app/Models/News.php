@@ -13,6 +13,27 @@ class News extends Model implements HasTags, HasComments
     use HasFactory;
     public $fillable = ['title', 'slug', 'brief', 'content', 'published', 'owner_id'];
 
+    protected static function boot()
+    {
+        parent::boot();
+        static::created(function(){
+            \Cache::tags(['adminNewsList'])->flush();
+            \Cache::tags(['news|list'])->flush();
+            \Cache::tags(['newsReport'])->flush();
+        });
+        static::updated(function(News $news){
+            \Cache::tags(['adminNewsList'])->flush();
+            \Cache::tags(['news|' . $news->slug])->flush();
+            \Cache::tags(['news|list'])->flush();
+        });
+        static::deleted(function(News $news){
+            \Cache::tags(['adminNewsList'])->flush();
+            \Cache::tags(['news|' . $news->slug])->flush();
+            \Cache::tags(['news|list'])->flush();
+            \Cache::tags(['newsReport'])->flush();
+        });
+    }
+
     public function getRouteKeyName()
     {
         return 'slug';

@@ -10,6 +10,20 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::created(function(){
+            \Cache::tags(['adminUsersList', 'userReport'])->flush();
+        });
+        static::updated(function(){
+            \Cache::tags(['adminUsersList', 'userReport'])->flush();
+        });
+        static::deleted(function(){
+            \Cache::tags(['adminUsersList', 'userReport'])->flush();
+        });
+    }
     protected $casts = ['email_verified_at' => 'datetime'];
     /**
      * The attributes that are mass assignable.
