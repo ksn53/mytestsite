@@ -28,6 +28,16 @@ class Post extends Model implements HasTags, HasComments
             $after = $post->getDirty();
             $post->history()->attach(auth()->id(), ['before' => Arr::only($post->fresh()->toArray(), array_keys($after)), 'after' => $after]);
         });
+
+        static::created(function(){
+            \Cache::tags(['posts'])->flush();
+        });
+        static::updated(function(){
+            \Cache::tags(['posts'])->flush();
+        });
+        static::deleted(function(){
+            \Cache::tags(['posts'])->flush();
+        });
     }
     public function getRouteKeyName()
     {

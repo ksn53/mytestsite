@@ -12,6 +12,9 @@ use App\Http\Controllers\IndexNewsController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Comments;
 
+use Illuminate\Contacts\Cache\Factory;
+use Illuminate\Contacts\Cache\Repository;
+
 Route::get('/tags/{tag}', [TagsController::class, 'index'])->name('tags');
 Route::resource('/posts', Posts::class);
 Route::resource('/admin/news', NewsController::class, ['except' => ['index', 'show']]);
