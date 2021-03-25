@@ -27,9 +27,8 @@ class IndexNewsController extends Controller
      */
     public function show(News $news)
     {
-        $news = \Cache::tags(['news|' . $news->slug])->remember('news_' . $news->slug, 3600, function() use($news){
-            return $news;
-        });
+        \Cache::tags(['news|' . $news->slug])->put('news_' . $news->slug, $news, 3600);
+        $news = \Cache::tags(['news|' . $news->slug])->get('news_' . $news->slug);
         return view ('news', compact('news'));
     }
 }

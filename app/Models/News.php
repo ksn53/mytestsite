@@ -5,34 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use App\Traits\FlushCacheTrait;
 use App\Http\Interfaces\HasTags;
 use App\Http\Interfaces\HasComments;
 
 class News extends Model implements HasTags, HasComments
 {
     use HasFactory;
+    use FlushCacheTrait;
     public $fillable = ['title', 'slug', 'brief', 'content', 'published', 'owner_id'];
-
-    protected static function boot()
-    {
-        parent::boot();
-        static::created(function(){
-            \Cache::tags(['adminNewsList'])->flush();
-            \Cache::tags(['news|list'])->flush();
-            \Cache::tags(['newsReport'])->flush();
-        });
-        static::updated(function(News $news){
-            \Cache::tags(['adminNewsList'])->flush();
-            \Cache::tags(['news|' . $news->slug])->flush();
-            \Cache::tags(['news|list'])->flush();
-        });
-        static::deleted(function(News $news){
-            \Cache::tags(['adminNewsList'])->flush();
-            \Cache::tags(['news|' . $news->slug])->flush();
-            \Cache::tags(['news|list'])->flush();
-            \Cache::tags(['newsReport'])->flush();
-        });
-    }
+    protected $cacheTags = ['adminNewsList', 'newsReport', 'news|list', 'tags'];
+    protected $singleCacheTag = 'news|';
 
     public function getRouteKeyName()
     {

@@ -6,10 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Post;
+use App\Traits\FlushCacheTrait;
 
 class PostHistory extends Model
 {
     use HasFactory;
+    use FlushCacheTrait;
+    protected $cacheTags = ['postReport'];
     protected $guarded = [];
     public function user()
     {

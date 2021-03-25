@@ -61,9 +61,8 @@ class Posts extends Controller
 
     public function show(Post $post)
     {
-        $post = \Cache::tags(['post|' . $post->slug])->remember('post_' . $post->slug, 3600, function() use($post){
-            return $post;
-        });
+        \Cache::tags(['post|' . $post->slug])->put('post_' . $post->slug, $post, 3600);
+        $post = \Cache::tags(['post|' . $post->slug])->get('post_' . $post->slug);
         return view ('post', compact('post'));
     }
 

@@ -4,24 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\FlushCacheTrait;
 
 class Tag extends Model
 {
     use HasFactory;
+    use FlushCacheTrait;
     public $fillable = ['name'];
-    protected static function boot()
-    {
-        parent::boot();
-        static::created(function(){
-            \Cache::tags(['tags'])->flush();
-        });
-        static::updated(function(){
-            \Cache::tags(['tags'])->flush();
-        });
-        static::deleted(function(){
-            \Cache::tags(['tags'])->flush();
-        });
-    }
+    protected $cacheTags = ['tags'];
 
     public function getRouteKeyName()
     {
