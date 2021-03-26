@@ -14,7 +14,7 @@ class News extends Model implements HasTags, HasComments
     use HasFactory;
     use FlushCacheTrait;
     public $fillable = ['title', 'slug', 'brief', 'content', 'published', 'owner_id'];
-    protected $cacheTags = ['adminNewsList', 'newsReport', 'news|list', 'tags'];
+    protected $cacheTags = ['news|list', 'tags'];
     protected $singleCacheTag = 'news|';
 
     public function getRouteKeyName()

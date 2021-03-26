@@ -14,7 +14,7 @@ class Comment extends Model
     use HasFactory;
     use FlushCacheTrait;
     public $fillable = ['title', 'content', 'owner_id'];
-    protected $cacheTags = ['postReport'];
+    protected $cacheTags = ['comments'];
     public function commentable()
     {
         return $this->morphTo();

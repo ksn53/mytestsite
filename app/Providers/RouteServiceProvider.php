@@ -7,6 +7,8 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
+use App\Models\Post;
+use App\Models\News;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -37,6 +39,16 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->configureRateLimiting();
 
+        Route::bind('post', function ($post) {
+            $post = Post::where('slug', $post)->firstOrFail();
+            \Cache::tags(['post|' . $post->slug])->put('post_' . $post->slug, $post, 3600);
+            return \Cache::tags(['post|' . $post->slug])->get('post_' . $post->slug);
+        });
+        Route::bind('news', function ($news) {
+            $news = News::where('slug', $news)->firstOrFail();
+            \Cache::tags(['news|' . $news->slug])->put('news_' . $news->slug, $news, 3600);
+            return \Cache::tags(['news|' . $news->slug])->get('news_' . $news->slug);
+        });
         $this->routes(function () {
             Route::prefix('api')
                 ->middleware('api')

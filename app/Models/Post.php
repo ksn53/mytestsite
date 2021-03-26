@@ -19,7 +19,7 @@ class Post extends Model implements HasTags, HasComments
     use HasFactory;
     use FlushCacheTrait;
     public $fillable = ['title', 'slug', 'brief', 'content', 'published', 'owner_id'];
-    protected $cacheTags = ['adminPostList', 'postReport', 'posts', 'tags'];
+    protected $cacheTags = ['posts', 'tags'];
     protected $singleCacheTag = 'post|';
     protected $dispatchesEvents = ['created' => PostCreated::class, 'updated' => PostUpdated::class];
     //public $itemTags;
@@ -32,19 +32,6 @@ class Post extends Model implements HasTags, HasComments
             $post->history()->attach(auth()->id(), ['before' => Arr::only($post->fresh()->toArray(), array_keys($after)), 'after' => $after]);
         });
 
-        /*static::created(function(){
-            \Cache::tags(['posts', 'adminPostList', 'postReport'])->flush();
-        });*/
-        /*static::updated(function(Post $post){
-            \Cache::tags(['posts'])->flush();
-            \Cache::tags(['post|' . $post->slug])->flush();
-            \Cache::tags(['adminPostList', 'postReport'])->flush();
-        });*/
-        /*static::deleted(function(Post $post){
-            \Cache::tags(['posts'])->flush();
-            \Cache::tags(['post|' . $post->slug])->flush();
-            \Cache::tags(['adminPostList', 'postReport'])->flush();
-        });*/
     }
     public function getRouteKeyName()
     {

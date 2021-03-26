@@ -10,6 +10,7 @@ use App\Http\Requests\PostRequestValidate;
 use App\Http\Requests\CommentRequestValidate;
 use App\Http\Service\CommentAdd;
 use App\Http\Service\TagExtract;
+//use Illuminate\Support\Facades\Route;
 
 class Posts extends Controller
 {
@@ -61,8 +62,6 @@ class Posts extends Controller
 
     public function show(Post $post)
     {
-        \Cache::tags(['post|' . $post->slug])->put('post_' . $post->slug, $post, 3600);
-        $post = \Cache::tags(['post|' . $post->slug])->get('post_' . $post->slug);
         return view ('post', compact('post'));
     }
 

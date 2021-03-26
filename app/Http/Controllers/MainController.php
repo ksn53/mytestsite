@@ -14,7 +14,7 @@ class MainController extends Controller
      */
     public function index()
     {
-        $posts = \Cache::tags(['posts'])->remember('posts_mainpage', 3600, function(){
+        $posts = \Cache::tags(['posts', 'tags'])->remember('posts_mainpage', 3600, function(){
             return Post::with('tags')->where('published', 1)->latest()->simplePaginate(10);
         });
         return view ('main', compact('posts'));
