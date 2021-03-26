@@ -4,11 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\FlushCacheTrait;
 
 class Tag extends Model
 {
     use HasFactory;
+    use FlushCacheTrait;
     public $fillable = ['name'];
+    protected $cacheTags = ['tags'];
 
     public function getRouteKeyName()
     {
@@ -24,8 +27,11 @@ class Tag extends Model
     }
     public static function tagsCloud()
     {
-        $postTags = (new static)->has('posts')->get();
-        $newsTags = (new static)->has('news')->get();
-        return $postTags->merge($newsTags);
+        $tagsCloud = \Cache::tags(['tags'])->remember('tagsCloud', 3600, function() {
+            $postTags = (new static())->has('posts')->get();
+            $newsTags = (new static())->has('news')->get();
+            return $postTags->merge($newsTags);
+        });
+        return $tagsCloud;
     }
 }

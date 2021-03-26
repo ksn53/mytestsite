@@ -24,20 +24,33 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $postCount = Post::count();
-        $newsCount = News::count();
-
-        $longestPost = Post::orderByraw('CHAR_LENGTH(content) DESC')->first();
+        $postCount = \Cache::tags(['posts'])->remember('postCount', 3600, function(){
+            return Post::count();
+        });
+        $newsCount = \Cache::tags(['news|list'])->remember('newsCount', 3600, function(){
+            return News::count();
+        });
+        $longestPost = \Cache::tags(['posts'])->remember('longestPost', 3600, function(){
+            return Post::orderByraw('CHAR_LENGTH(content) DESC')->first();
+        });
         $longestPostContentLength = mb_strlen($longestPost->content);
-        $shortestPost = Post::orderByraw('CHAR_LENGTH(content) ASC')->first();
+        $shortestPost = \Cache::tags(['posts'])->remember('shortestPost', 3600, function(){
+            return Post::orderByraw('CHAR_LENGTH(content) ASC')->first();
+        });
         $shortestPostContentLength = mb_strlen($shortestPost->content);
-
-        $maxPostUser = User::withCount('posts')->orderByDesc('posts_count')->first(['id', 'name', 'posts_count']);
-        $activeUsers = User::withCount('posts')->having('posts_count', '>', 1)->get(['id', 'name', 'posts_count']);
+        $maxPostUser = \Cache::tags(['userReport', 'posts'])->remember('maxPostUser', 3600, function(){
+            return User::withCount('posts')->orderByDesc('posts_count')->first(['id', 'name', 'posts_count']);
+        });
+        $activeUsers = \Cache::tags(['userReport', 'posts'])->remember('activeUsers', 3600, function(){
+            return User::withCount('posts')->having('posts_count', '>', 1)->get(['id', 'name', 'posts_count']);
+        });
         $middlePostCount = $activeUsers->sum('posts_count')/$activeUsers->count();
-        $mostEditedPost = Post::withCount('history')->orderByDesc('history_count')->first(['id', 'title', 'slug', 'history_count']);
-        $mostCommentedPost = Post::withCount('comments')->orderByDesc('comments_count')->first(['id', 'title', 'slug', 'comments_count']);
-
+        $mostEditedPost = \Cache::tags(['posts', 'comments'])->remember('mostEditedPost', 3600, function(){
+            return Post::withCount('history')->orderByDesc('history_count')->first(['id', 'title', 'slug', 'history_count']);
+        });
+        $mostCommentedPost = \Cache::tags(['posts', 'comments'])->remember('mostCommentedPost', 3600, function(){
+            return Post::withCount('comments')->orderByDesc('comments_count')->first(['id', 'title', 'slug', 'comments_count']);
+        });
         return view ('admin.main', [
             'postcount' => $postCount,
             'newscount' => $newsCount,
@@ -54,23 +67,30 @@ class AdminController extends Controller
 
     public function postlist()
     {
-        $posts = Post::latest()->paginate(20);
+        $posts = \Cache::tags(['posts'])->remember('admin_post_list', 3600, function(){
+            return Post::latest()->paginate(20);
+        });
         return view ('admin.postlist', compact('posts'));
     }
     public function newslist()
     {
-        $news = News::latest()->paginate(20);
+        $news = \Cache::tags(['news|list'])->remember('admin_news_list', 3600, function(){
+            return News::latest()->paginate(20);
+        });
         return view ('admin.newslist', compact('news'));
     }
     public function userlist()
     {
-        $users = User::orderBy('name', 'DESC')->get();
+        $users = \Cache::tags(['adminUsersList'])->remember('admin_users_list', 3600, function(){
+            return User::orderBy('name', 'DESC')->get();
+        });
         return view ('admin.userlist', compact('users'));
     }
-
     public function rolelist()
     {
-        $roles = Role::orderBy('name', 'DESC')->get();
+        $roles = \Cache::tags(['adminRolesList'])->remember('admin_roles_list', 3600, function(){
+            return Role::orderBy('name', 'DESC')->get();
+        });
         return view ('admin.rolelist', compact('roles'));
     }
     public function reportall()
@@ -89,7 +109,6 @@ class AdminController extends Controller
         }
         \App\Jobs\PostsReport::dispatch(Auth::user()->email, $request->posts, $request->users, $request->news, $request->tags, $request->comments);
         flash('Отчёт в процессе формирования и будет отправлен на почту.');
-        //event(new \App\Events\ReportCreated($request->posts, $request->users, $request->news, $request->tags, $request->comments));
         return view ('admin.reportAllForm');
     }
 

@@ -13,7 +13,9 @@ class IndexNewsController extends Controller
      */
     public function index()
     {
-        $news = News::where('published', 1)->latest()->simplePaginate(10);
+        $news = \Cache::tags(['news|list'])->remember('news_list', 3600, function(){
+            return News::where('published', 1)->latest()->simplePaginate(10);
+        });
         return view ('newsPage', compact('news'));
     }
 
