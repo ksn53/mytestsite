@@ -27,9 +27,9 @@ class Tag extends Model
     }
     public static function tagsCloud()
     {
-        $tagsCloud = \Cache::tags(['tags'])->remember('tagsCloud', 3600, function(){
-            $postTags = (new static)->has('posts')->get();
-            $newsTags = (new static)->has('news')->get();
+        $tagsCloud = \Cache::tags(['tags'])->remember('tagsCloud', 3600, function() {
+            $postTags = (new static())->has('posts')->get();
+            $newsTags = (new static())->has('news')->get();
             return $postTags->merge($newsTags);
         });
         return $tagsCloud;

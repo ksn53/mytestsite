@@ -39,15 +39,17 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->configureRateLimiting();
 
-        Route::bind('post', function ($post) {
-            $post = Post::where('slug', $post)->firstOrFail();
-            \Cache::tags(['post|' . $post->slug])->put('post_' . $post->slug, $post, 3600);
-            return \Cache::tags(['post|' . $post->slug])->get('post_' . $post->slug);
+        Route::bind('post', function ($slug) {
+            $post = \Cache::tags(['post|' . $slug])->remember('post|' . $slug, 3600, function() use ($slug) {
+                return Post::where('slug', $slug)->firstOrFail();
+            });
+            return $post;
         });
-        Route::bind('news', function ($news) {
-            $news = News::where('slug', $news)->firstOrFail();
-            \Cache::tags(['news|' . $news->slug])->put('news_' . $news->slug, $news, 3600);
-            return \Cache::tags(['news|' . $news->slug])->get('news_' . $news->slug);
+        Route::bind('news', function ($slug) {
+            $news = \Cache::tags(['news|' . $slug])->remember('news|' . $slug, 3600, function() use ($slug) {
+                return News::where('slug', $slug)->firstOrFail();
+            });
+            return $news;
         });
         $this->routes(function () {
             Route::prefix('api')
