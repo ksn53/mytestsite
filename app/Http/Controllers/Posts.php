@@ -10,7 +10,6 @@ use App\Http\Requests\PostRequestValidate;
 use App\Http\Requests\CommentRequestValidate;
 use App\Http\Service\CommentAdd;
 use App\Http\Service\TagExtract;
-//use Illuminate\Support\Facades\Route;
 
 class Posts extends Controller
 {
