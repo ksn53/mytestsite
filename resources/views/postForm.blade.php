@@ -3,6 +3,10 @@
     <input name="title" type="text" class="form-control" id="titleInput" placeholder='Введите название' value="{{ old('title', $post->title) }}">
 </div>
 <div class="form-group">
+    <label for="categoryInput">Категория</label>
+    <input name="category" type="text" class="form-control" id="categoryInput" placeholder='Введите рубрику' value="{{ old('category', $post->category->name) }}">
+</div>
+<div class="form-group">
     <label for="slugInput">Символьный код</label>
     <input name="slug" type="text" class="form-control" id="slugInput" placeholder='Введите код' value="{{ old('slug', $post->slug) }}">
 </div>

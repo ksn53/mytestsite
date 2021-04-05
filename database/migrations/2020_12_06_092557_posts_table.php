@@ -17,12 +17,14 @@ class PostsTable extends Migration
             $table->id();
             $table->string('title', 100);
             $table->unsignedBigInteger('owner_id');
+            $table->unsignedBigInteger('category_id');
             $table->text('brief');
             $table->text('content');
             $table->boolean('published')->nullable();
             $table->string('slug', 10)->unique();
             $table->timestamps();
             $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }
 

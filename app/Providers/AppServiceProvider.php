@@ -41,6 +41,7 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
         view()->composer('layout.sidebar', function ($view) {
             $view->with('tagsCloud', \App\Models\Tag::tagsCloud());
+            $view->with('categorysCloud', \App\Models\Category::categoryCloud());
         });
         Paginator::defaultView('pagination::bootstrap-4');
         Paginator::defaultSimpleView('pagination::simple-default');
