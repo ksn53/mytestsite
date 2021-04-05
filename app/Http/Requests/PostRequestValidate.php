@@ -26,6 +26,7 @@ class PostRequestValidate extends FormRequest
     {
         $rules = [
             'title' => 'required|min:5|max:100',
+            'category' => 'required|min:5|max:100',
             'brief' => 'required|max:512',
             'content' => 'required',
             'published' => 'in:null,1',

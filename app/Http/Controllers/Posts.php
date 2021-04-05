@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\PostUpdated;
 use App\Http\Requests\PostRequestValidate;
@@ -42,6 +43,8 @@ class Posts extends Controller
     {
         $validated = $request->validated();
         $validated['owner_id'] = Auth::id();
+        $validated['category_id'] = Category::firstOrCreate(['name' => $validated['category']])->id;
+        unset($validated['category']);
         $post = Post::create($validated);
         if (!is_null($validated['tags'])) {
             $post->tags()->sync($tagExtract->extractTagsId($validated['tags']));
@@ -52,6 +55,8 @@ class Posts extends Controller
     public function update(Post $post, PostRequestValidate $request, TagExtract $tagExtract)
     {
         $validated = $request->validated();
+        $validated['category_id'] = Category::firstOrCreate(['name' => $validated['category']])->id;
+        unset($validated['category']);
         $post->update($validated);
         $post->tags()->sync($tagExtract->extractTagsId($validated['tags'], $post));
         $post->owner->notify(new PostUpdated());

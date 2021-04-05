@@ -7,12 +7,14 @@ use App\Http\Controllers\Feedbacks;
 use App\Http\Controllers\Posts;
 use App\Http\Controllers\Contacts;
 use App\Http\Controllers\TagsController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\IndexNewsController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Comments;
 
 Route::get('/tags/{tag}', [TagsController::class, 'index'])->name('tags');
+Route::get('/category/{category}', [CategoryController::class, 'index'])->name('category');
 Route::resource('/posts', Posts::class);
 Route::resource('/admin/news', NewsController::class, ['except' => ['index', 'show']]);
 Route::get('/news', [IndexNewsController::class, 'index'])->name('newspage');

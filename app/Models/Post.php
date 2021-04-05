@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
-use App\Models\User;
 use App\Models\HistoryPivot;
 use App\Events\PostCreated;
 use App\Events\PostUpdated;
@@ -18,11 +17,10 @@ class Post extends Model implements HasTags, HasComments
 {
     use HasFactory;
     use FlushCacheTrait;
-    public $fillable = ['title', 'slug', 'brief', 'content', 'published', 'owner_id'];
-    protected $cacheTags = ['posts', 'tags'];
+    public $fillable = ['title', 'slug', 'brief', 'content', 'published', 'owner_id', 'category_id'];
+    protected $cacheTags = ['posts', 'tags', 'categorys'];
     protected $singleCacheTag = 'post|';
     protected $dispatchesEvents = ['created' => PostCreated::class, 'updated' => PostUpdated::class];
-    //public $itemTags;
     protected static function boot()
     {
         parent::boot();
@@ -49,7 +47,10 @@ class Post extends Model implements HasTags, HasComments
     {
         return $this->belongsTo(User::class);
     }
-
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
     public function history()
     {
         return $this->belongsToMany(User::class, 'post_histories')->using(HistoryPivot::class)->withPivot(['before', 'after'])->withTimestamps();

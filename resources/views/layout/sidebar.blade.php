@@ -8,4 +8,8 @@
           <h4 class="font-italic">теги</h4>
           @include('content.tags', ['tags' => $tagsCloud])
       </div>
+      <div class="p-4">
+          <h4 class="font-italic">Категории</h4>
+          @include('content.categorys', ['categorys' => $categorysCloud])
+      </div>
     </aside><!-- /.blog-sidebar -->
