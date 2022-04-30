@@ -246,3 +246,17 @@ Web-Socket
  то должен сброситься кеш на всех страницах, где могла быть задействована эта новость.
 
 Для реализации сброса кеша используйте тегированный кеш.
+
+Запуск 
+composer install
+composer dump-autoload --no-scripts --optimize
+
+создать папки storage/framework:
+    sessions
+    views
+    cache
+
+php artisan key:generate
+php artisan migrate
+
+
