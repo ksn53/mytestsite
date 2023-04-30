@@ -1,4 +1,4 @@
-# ver 0.10.62
+# ver 0.10.63
 feature1
 
 This is simple Laravel site, containing parts listed below:
@@ -14,49 +14,39 @@ This is simple Laravel site, containing parts listed below:
 Page composition
 
 Homepage
-
-На этой странице выводится список опубликованных статей в порядке убывания даты создания. В каждом элементе выводятся его название, краткое описание и дата публикации.
+This page lists published articles in descending order by creation date. Each item displays its title, a brief description, and the publication date.
 
 
 Detailed article page
 
-На этой странице выводятся: название, дата создания, подробный текст статьи и ссылка на главную страницу со списком статей.
+This page displays: title, date of creation, detailed text of the article and a link to the main page with a list of articles.
 
 
 Create article page
 
-Выводится форма для создания статьи со следующими полями и правилами валидации:
+A form for creating an article is displayed with the following fields and validation rules:
 
-    Символьный код — обязательное текстовое поле, должно состоять только из латинских символов, цифр и символов тире и подчеркивания. Должно быть уникальным на все статьи: нельзя создать две статьи с одинаковым символьным кодом.
-    Название статьи — обязательное текстовое поле не менее 5 и не более 100 символов.
-    Краткое описание статьи — обязательное текстовое поле не более 255 символов.
-    Детальное описание — обязательное текстовое поле.
-    Опубликовано — чекбокс.
+    Symbolic code is a mandatory text field that must contain only Latin characters, numbers, and dashes and underscores. Must be unique across all articles: you cannot create two articles with the same character code.
+    The title of the article is a required text field of at least 5 and no more than 100 characters.
+    A short description of the article is a required text field of no more than 255 characters.
+    Detailed description is a required text field.
+    Published - checkbox.
 
 
 Contacts
 
-На этой странице выводится форма для создания статьи со следующими полями и правилами валидации:
+This page displays a form for creating an article with the following fields and validation rules:
 
-    Email — обязательное поле.
-    Сообщение — обязательное поле.
+    Email is a required field.
+    Message is a required field.
 
 
 Feedback list
 
-На этой странице выводится список сообщений, оставленных в форме обратной связи в виде простой таблицы. Список отсортирован по убыванию даты получения сообщения. В таблице выводится три колонки: email, сообщение, дата получения.
+This page displays a list of messages left in the feedback form in the form of a simple table. The list is sorted in descending order by the date the message was received. The table displays three columns: email, message, date received.
 
-Доработка механизма управления статьями
-
-Сделайте из статей полноценный ресурс, добавьте возможность изменения и удаления статьи, а также реализуйте показ всплывающих уведомлений о том, что изменения прошли успешно.
-
-Поля формы создания и редактирования статьи одинаковые, это уже созданные вами ранее поля:
-
-    Символьный код — обязательное текстовое поле, должно состоять только из латинских символов, цифр и символов тире и подчеркивания. Должно быть уникальным на все статьи: нельзя создать две статьи с одинаковым символьным кодом.
-    Название статьи — обязательное текстовое поле не менее 5 не более 100 символов.
-    Краткое описание статьи — обязательное текстовое поле не более 255 символов.
-    Детальное описание — обязательное текстовое поле.
-    Опубликовано — чекбокс.
+Refinement of the article management mechanism.
+Added the ability to change and delete an article, implemented the display of pop-up notifications that the changes were successful.
 
 
 Validation optimization
