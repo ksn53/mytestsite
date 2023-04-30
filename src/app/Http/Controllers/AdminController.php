@@ -44,7 +44,7 @@ class AdminController extends Controller
         $activeUsers = \Cache::tags(['userReport', 'posts'])->remember('activeUsers', 3600, function(){
             return User::withCount('posts')->having('posts_count', '>', 1)->get(['id', 'name', 'posts_count']);
         });
-        $middlePostCount = $activeUsers->sum('posts_count')/$activeUsers->count();
+        $middlePostCount = ($activeUsers->count() > 0) ? $activeUsers->sum('posts_count')/$activeUsers->count() : 0;
         $mostEditedPost = \Cache::tags(['posts', 'comments'])->remember('mostEditedPost', 3600, function(){
             return Post::withCount('history')->orderByDesc('history_count')->first(['id', 'title', 'slug', 'history_count']);
         });
