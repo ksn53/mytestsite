@@ -236,4 +236,3 @@ user: admin@test.loc
 password: password
 
 
-# shopcat
