@@ -11,6 +11,7 @@
                 <b-tab title="Disabled" disabled><p>I'm a disabled tab!</p></b-tab>
             </b-tabs>
         </div>
+
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">

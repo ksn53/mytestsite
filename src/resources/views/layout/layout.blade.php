@@ -6,6 +6,7 @@
 <div id="app">
     <example-component :test='@json($test)'></example-component>
 </div>
+
 <main role="main" class="container">
     <div class="row m-1">
 
