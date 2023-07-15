@@ -17,7 +17,7 @@
                     <div class="card-header">Example Component</div>
 
                     <div class="card-body">
-                        I'm an example component.
+                        I'm an example component.<b>{{ this.test }}</b>
                     </div>
                 </div>
             </div>
@@ -27,7 +27,9 @@
 
 <script>
     export default {
-        mounted() {
+        name: 'ExampleComponent',
+        props: ['test'],
+        mounted () {
             console.log('Component mounted.')
         }
     }

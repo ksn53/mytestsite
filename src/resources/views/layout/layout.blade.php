@@ -2,9 +2,9 @@
   <div class="nav-scroller py-1 mb-2">
     @include('layout.nav')
   </div>
-</div>
+
 <div id="app">
-    <example-component></example-component>
+    <example-component :test='@json($test)'></example-component>
 </div>
 <main role="main" class="container">
     <div class="row m-1">
