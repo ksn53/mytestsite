@@ -3,7 +3,13 @@
     @include('layout.nav')
   </div>
 </div>
+<<<<<<< HEAD
 
+=======
+<div id="app">
+    <example-component></example-component>
+</div>
+>>>>>>> master
 <main role="main" class="container">
     <div class="row m-1">
 
