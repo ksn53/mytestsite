@@ -1,15 +1,12 @@
 @include('layout.header')
-  <div class="nav-scroller py-1 mb-2">
-    @include('layout.nav')
-  </div>
+<div class="nav-scroller py-1 mb-2">
+@include('layout.nav')
 </div>
-<<<<<<< HEAD
 
-=======
 <div id="app">
     <example-component></example-component>
 </div>
->>>>>>> master
+
 <main role="main" class="container">
     <div class="row m-1">
 
